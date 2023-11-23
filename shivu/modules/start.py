@@ -35,7 +35,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         
         
         caption = f"""
-        *** Hey there! {update.effective_user.first_name} 🌻***
+        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name} 🌻***
               
 ***ɪ ᴀᴍ Catch Your Waifu Bot,
 ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs,ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
@@ -44,7 +44,7 @@ sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪ
 ʜɪᴛ /help ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴍᴇ.***
                """
         keyboard = [
-            [InlineKeyboardButton("Add Me", url=f'http://t.me/Collect_emAll_Bot?startgroup=new')],
+            [InlineKeyboardButton("Add Me", url=f'http://t.me/Catch_Your_Waifu_Bot?startgroup=new')],
             [InlineKeyboardButton("Help", callback_data='help'),
              InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
             [InlineKeyboardButton("Updates", url=f'https://t.me/{UPDATE_CHAT}')],
@@ -74,7 +74,7 @@ async def button(update: Update, context: CallbackContext) -> None:
         help_text = """
     ***Help Section :***
     
-***/guess: To Guess character (only works in group)***
+***/Catch: To Catch character (only works in group)***
 ***/fav: Add Your fav***
 ***/trade : To trade Characters***
 ***/gift: Give any Character from Your Collection to another user.. (only works in groups)***
@@ -92,12 +92,15 @@ async def button(update: Update, context: CallbackContext) -> None:
     elif query.data == 'back':
 
         caption = f"""
-        ***Hey there! {update.effective_user.first_name}*** 🌻
+        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name}*** 🌻
         
-***i Am Collect 'Em All Bot.. Add Me in You're Group And I will send Random Characters in group after every 100 messages and who guessed that character's name Correct.. I will add That Character in That user's Collection.. Tap on help Button To See All Commands***
+***ɪ ᴀᴍ Catch Your Waifu Bot,
+ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs,ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
+sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ʙʏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.
+***
         """
         keyboard = [
-            [InlineKeyboardButton("Add Me", url=f'http://t.me/Collect_emAll_Bot?startgroup=new')],
+            [InlineKeyboardButton("Add Me", url=f'http://t.me/Catch_Your_Waifu_Bot?startgroup=new')],
             [InlineKeyboardButton("Help", callback_data='help'),
              InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
             [InlineKeyboardButton("Updates", url=f'https://t.me/{UPDATE_CHAT}')],
