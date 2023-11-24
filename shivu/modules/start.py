@@ -35,7 +35,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         
         
         caption = f"""
-        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name} 🌻***
+        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name} 🎐***
               
 ***ɪ ᴀᴍ Catch Your Waifu Bot,
 ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs,ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
@@ -92,12 +92,13 @@ async def button(update: Update, context: CallbackContext) -> None:
     elif query.data == 'back':
 
         caption = f"""
-        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name}*** 🌻
+        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name}*** 🎐
         
 ***ɪ ᴀᴍ Catch Your Waifu Bot,
 ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs,ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
 sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ʙʏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.
-***
+
+ʜɪᴛ /help ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴍᴇ.***
         """
         keyboard = [
             [InlineKeyboardButton("Add Me", url=f'http://t.me/Catch_Your_Waifu_Bot?startgroup=new')],
