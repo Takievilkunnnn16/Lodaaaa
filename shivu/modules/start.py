@@ -77,11 +77,12 @@ async def button(update: Update, context: CallbackContext) -> None:
 ***/Catch: To Catch character (only works in group)***
 ***/fav: Add Your fav***
 ***/trade : To trade Characters***
-***/gift: Give any Character from Your Collection to another user.. (only works in groups)***
-***/collection: To see Your Collection***
+***/gift: Give any Character from Your harem to another user.. (only works in groups)***
+***/harem: To see Your harem***
 ***/topgroups : See Top Groups.. Ppl Guesses Most in that Groups***
 ***/top: Too See Top Users***
-***/ctop : Your ChatTop***
+***/htop : Your ChatTop***
+***/status: Get Your Progress Report Status Card
 ***/changetime: Change Character appear time (only works in Groups)***
    """
         help_keyboard = [[InlineKeyboardButton("Back", callback_data='back')]]
