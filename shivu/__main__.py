@@ -128,13 +128,13 @@ async def guess(update: Update, context: CallbackContext) -> None:
         return
 
     if chat_id in first_correct_guesses:
-        await update.message.reply_text(f'❌️ Already guessed by Someone..So Try Next Time Bruhh')
+        await update.message.reply_text(f'❌️ Already catched by Someone..So Try Next Time Bruhh')
         return
 
     guess = ' '.join(context.args).lower() if context.args else ''
     
     if "()" in guess or "&" in guess.lower():
-        await update.message.reply_text("You can't use '&' in your guess.")
+        await update.message.reply_text("You can't use '&' in your harem.")
         return
         
     
@@ -225,13 +225,13 @@ async def fav(update: Update, context: CallbackContext) -> None:
     
     user = await user_collection.find_one({'id': user_id})
     if not user:
-        await update.message.reply_text('You have not guessed any characters yet.')
+        await update.message.reply_text('You have not catched any characters yet.')
         return
 
     
     character = next((c for c in user['characters'] if c['id'] == character_id), None)
     if not character:
-        await update.message.reply_text('This character is not in your collection.')
+        await update.message.reply_text('This character is not in your harem.')
         return
 
     
