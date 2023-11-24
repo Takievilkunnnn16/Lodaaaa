@@ -155,7 +155,7 @@ async def gift(client, message):
     character = next((character for character in sender['characters'] if character['id'] == character_id), None)
 
     if not character:
-        await message.reply_text("You don't have this character in your collection!")
+        await message.reply_text("You don't have this character in your harem!")
         return
 
     
