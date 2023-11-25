@@ -12,18 +12,18 @@ async def change_time(update: Update, context: CallbackContext) -> None:
     member = await chat.get_member(user.id)
 
     if member.status not in ('administrator', 'creator'):
-        await update.message.reply_text('You do not have permission to use this command.')
+        await update.message.reply_text('Your not Admin sed')
         return
     try:
         
         args = context.args
         if len(args) != 1:
-            await update.message.reply_text('Incorrect format. Please use: /changetime NUMBER')
+            await update.message.reply_text('Nou Bruhh Please use: /changetime NUMBER')
             return
 
         
         new_frequency = int(args[0])
-        if new_frequency < 1:
+        if new_frequency < 100:
             await update.message.reply_text('The message frequency must be greater than or equal to 100.')
             return
 
@@ -35,9 +35,9 @@ async def change_time(update: Update, context: CallbackContext) -> None:
             return_document=ReturnDocument.AFTER
         )
 
-        await update.message.reply_text(f'Successfully changed character appearance frequency to every {new_frequency} messages.')
+        await update.message.reply_text(f'Successfully changed {new_frequency}')
     except Exception as e:
-        await update.message.reply_text('Failed to change character appearance frequency.')
+        await update.message.reply_text('Failed to change')
 
 
 application.add_handler(CommandHandler("changetime", change_time, block=False))
