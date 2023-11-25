@@ -78,10 +78,10 @@ async def button(update: Update, context: CallbackContext) -> None:
 ***/fav: Add Your fav***
 ***/trade : To trade Characters***
 ***/gift: Give any Character from Your harem to another user.. (only works in groups)***
-***/harem: To see Your harem***
+***/collection: To see Your Collection***
 ***/topgroups : See Top Groups.. Ppl Guesses Most in that Groups***
 ***/top: Too See Top Users***
-***/htop : Your ChatTop***
+***/ctop : Too See Your Chatgroup top***
 ***/status: Get Your Progress Report Status Card
 ***/changetime: Change Character appear time (only works in Groups)***
    """
