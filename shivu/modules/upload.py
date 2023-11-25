@@ -30,7 +30,16 @@ async def upload(update: Update, context: CallbackContext) -> None:
     try:
         args = context.args
         if len(args) != 4:
-            await update.message.reply_text('Incorrect format... Please use: /upload img_url Character-Name Anime-Name Rarity')
+            await update.message.reply_text("""
+        Wrong ❌️ format...  eg. /upload Img_url muzan-kibutsuji Demon-slayer 3
+
+img_url character-name anime-name rarity-number
+
+use rarity number accordingly rarity Map
+
+rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medium)""")
+
+            
             return
 
         character_name = args[1].replace('-', ' ').title()
@@ -93,7 +102,7 @@ async def delete(update: Update, context: CallbackContext) -> None:
             await context.bot.delete_message(chat_id=CHARA_CHANNEL_ID, message_id=character['message_id'])
             await update.message.reply_text('DONE')
         else:
-            await update.message.reply_text('No character found with given ID.')
+            await update.message.reply_text('Deleted Successfully from db but sed.. character not found In Channel')
     except Exception as e:
         await update.message.reply_text(f'{str(e)}')
 
@@ -157,7 +166,7 @@ async def update(update: Update, context: CallbackContext) -> None:
 
         await update.message.reply_text('Updated Done in Database.... But sometimes.. It Takes Time to edit Caption in Your Channel..So wait..')
     except Exception as e:
-        await update.message.reply_text(f'Error: {str(e)}')
+        await update.message.reply_text(f'I guess did not added bot in channel.. or character uploaded Long time ago.. Or character not exits.. orr Wrong id')
 
 UPLOAD_HANDLER = CommandHandler('upload', upload, block=False)
 application.add_handler(UPLOAD_HANDLER)
