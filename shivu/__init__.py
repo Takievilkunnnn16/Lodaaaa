@@ -13,7 +13,7 @@ logging.basicConfig(
 logging.getLogger("apscheduler").setLevel(logging.ERROR)
 logging.getLogger('httpx').setLevel(logging.WARNING)
 logging.getLogger("pyrate_limiter").setLevel(logging.ERROR)
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger(name)
 
 OWNER_ID = os.getenv("OWNER_ID")
 sudo_users = os.getenv("SUDO_USERS").split()
@@ -26,6 +26,8 @@ CHARA_CHANNEL_ID = os.getenv("CHARA_CHANNEL_ID")
 API_HASH = os.getenv("API_HASH")
 API_ID = os.getenv("API_ID")
 UPDATE_CHAT = os.getenv("UPDATE_CHAT")
+BOT_USERNAME = os.getenv("BOT_USERNAME")
+
 
 application = Application.builder().token(TOKEN).build()
 shivuu = Client(
@@ -43,6 +45,3 @@ user_totals_collection = db['user_totals_lmaoooo']
 user_collection = db["user_collection_lmaoooo"]
 group_user_totals_collection = db['group_user_totalsssssss']
 top_global_groups_collection = db['top_global_groups']
-
-
-
