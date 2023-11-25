@@ -6,7 +6,7 @@ from telegram.ext import MessageHandler, filters
 from telegram.ext import CommandHandler
 from shivu import application 
 from shivu import db, GROUP_ID, OWNER_ID 
-from shivu import PHOTO_URL, SUPPORT_CHAT, UPDATE_CHAT 
+from shivu import PHOTO_URL, SUPPORT_CHAT, UPDATE_CHAT, BOT_USERNAME 
 import random
 collection = db['total_pm_users']
 
@@ -35,19 +35,17 @@ async def start(update: Update, context: CallbackContext) -> None:
         
         
         caption = f"""
-        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name} 🎐***
+        ***Hey there! {update.effective_user.first_name} 🌻***
               
-***ɪ ᴀᴍ Catch Your Waifu Bot,
-ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs,ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
-sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ʙʏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.
-
-ʜɪᴛ /help ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴍᴇ.***
+***i Am Collect 'Em All Bot.. Add Me in You're Group And I will send Random Characters in group after every 100 messages and who guessed that character's name Correct.. I will add That Character in That user's Collection.. Tap on help Button To See All Commands***
                """
         keyboard = [
-            [InlineKeyboardButton("Add Me", url=f'http://t.me/Catch_Your_Waifu_Bot?startgroup=new')],
+            [InlineKeyboardButton("Add Me", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
             [InlineKeyboardButton("Help", callback_data='help'),
              InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
             [InlineKeyboardButton("Updates", url=f'https://t.me/{UPDATE_CHAT}')],
+            [InlineKeyboardButton("SOURCE", url=f'https://github.com/MyNameIsShekhar/character_catcher-')],
+            
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         photo_url = random.choice(PHOTO_URL)
@@ -60,6 +58,7 @@ sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪ
             
             [InlineKeyboardButton("Help", callback_data='help'),
              InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
+            [InlineKeyboardButton("SOURCE", url=f'https://github.com/MyNameIsShekhar/character_catcher-')],
             
         ]
         
@@ -74,15 +73,14 @@ async def button(update: Update, context: CallbackContext) -> None:
         help_text = """
     ***Help Section :***
     
-***/Catch: To Catch character (only works in group)***
+***/guess: To Guess character (only works in group)***
 ***/fav: Add Your fav***
 ***/trade : To trade Characters***
-***/gift: Give any Character from Your harem to another user.. (only works in groups)***
+***/gift: Give any Character from Your Collection to another user.. (only works in groups)***
 ***/collection: To see Your Collection***
 ***/topgroups : See Top Groups.. Ppl Guesses Most in that Groups***
 ***/top: Too See Top Users***
-***/ctop : Too See Your Chatgroup top***
-***/status: Get Your Progress Report Status Card
+***/ctop : Your ChatTop***
 ***/changetime: Change Character appear time (only works in Groups)***
    """
         help_keyboard = [[InlineKeyboardButton("Back", callback_data='back')]]
@@ -93,19 +91,17 @@ async def button(update: Update, context: CallbackContext) -> None:
     elif query.data == 'back':
 
         caption = f"""
-        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name}*** 🎐
+        ***Hey there! {update.effective_user.first_name}*** 🌻
         
-***ɪ ᴀᴍ Catch Your Waifu Bot,
-ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs,ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
-sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ʙʏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.
-
-ʜɪᴛ /help ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴍᴇ.***
+***i Am Collect 'Em All Bot.. Add Me in You're Group And I will send Random Characters in group after every 100 messages and who guessed that character's name Correct.. I will add That Character in That user's Collection.. Tap on help Button To See All Commands***
         """
         keyboard = [
-            [InlineKeyboardButton("Add Me", url=f'http://t.me/Catch_Your_Waifu_Bot?startgroup=new')],
+            [InlineKeyboardButton("Add Me", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
             [InlineKeyboardButton("Help", callback_data='help'),
              InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
             [InlineKeyboardButton("Updates", url=f'https://t.me/{UPDATE_CHAT}')],
+            [InlineKeyboardButton("SOURCE", url=f'https://github.com/MyNameIsShekhar/character_catcher-')],
+            
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
