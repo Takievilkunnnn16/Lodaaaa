@@ -13,7 +13,7 @@ logging.basicConfig(
 logging.getLogger("apscheduler").setLevel(logging.ERROR)
 logging.getLogger('httpx').setLevel(logging.WARNING)
 logging.getLogger("pyrate_limiter").setLevel(logging.ERROR)
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger(name)
 
 OWNER_ID = os.getenv("OWNER_ID")
 sudo_users = os.getenv("SUDO_USERS").split()
