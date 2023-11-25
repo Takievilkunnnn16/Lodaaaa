@@ -35,7 +35,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         
         
         caption = f"""
-        ****𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name} 🎐*
+        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name} 🎐*
               
 ***ɪ ᴀᴍ Catch Your Waifu Bot,
 ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs,ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
