@@ -48,9 +48,8 @@ sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪ
             [InlineKeyboardButton("Help", callback_data='help'),
              InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
             [InlineKeyboardButton("Updates", url=f'https://t.me/{UPDATE_CHAT}')],
-            [InlineKeyboardButton("SOURCE", url=f'https://github.com/MyNameIsShekhar/character_catcher-')],
             
-        ]
+  ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         photo_url = random.choice(PHOTO_URL)
 
@@ -62,9 +61,8 @@ sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪ
             
             [InlineKeyboardButton("Help", callback_data='help'),
              InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
-            [InlineKeyboardButton("SOURCE", url=f'https://github.com/MyNameIsShekhar/character_catcher-')],
             
-        ]
+  ]
         
         reply_markup = InlineKeyboardMarkup(keyboard)
         await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption="I am alive",reply_markup=reply_markup )
