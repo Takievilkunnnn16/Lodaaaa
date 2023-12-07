@@ -46,10 +46,10 @@ async def start(update: Update, context: CallbackContext) -> None:
 ʜɪᴛ /help ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴍᴇ.***
                """
         keyboard = [
-            [InlineKeyboardButton("Add Me", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
-            [InlineKeyboardButton("Help", callback_data='help'),
-             InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
-            [InlineKeyboardButton("Updates", url=f'https://t.me/{UPDATE_CHAT}')],
+            [InlineKeyboardButton("✦ ᴀᴅᴅ ᴍᴇ ✦", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
+            [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='¤ ʜᴇʟᴘ ¤'),
+             InlineKeyboardButton("⌬ sᴜᴘᴘᴏʀᴛ ⌬", url=f'https://t.me/{SUPPORT_CHAT}')],
+            [InlineKeyboardButton("⍟ ᴜᴘᴅᴀᴛᴇs ⍟", url=f'https://t.me/{UPDATE_CHAT}')],
             
   ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -61,8 +61,8 @@ async def start(update: Update, context: CallbackContext) -> None:
         photo_url = random.choice(PHOTO_URL)
         keyboard = [
             
-            [InlineKeyboardButton("Help", callback_data='help'),
-             InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
+            [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='¤ ʜᴇʟᴘ ¤'),
+             InlineKeyboardButton("⌬ sᴜᴘᴘᴏʀᴛ ⌬", url=f'https://t.me/{SUPPORT_CHAT}')],
             
   ]
         
@@ -95,19 +95,21 @@ async def button(update: Update, context: CallbackContext) -> None:
     elif query.data == 'back':
 
         caption = f"""
-        ***𝐻𝑒𝑦 𝑡ℎ𝑒𝑟𝑒! {update.effective_user.first_name} 🎐*
+        ***🎐 ʜᴇʏ ᴛʜᴇʀᴇ...! {update.effective_user.first_name} 🎐*
               
-***ɪ ᴀᴍ Catch Your Waifu Bot,
-ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs,ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
-sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ʙʏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.
+***◎ ─━──━─❖─━──━─ ◎
+⍟ ɪ ᴀᴍ ᴄᴀᴛᴄʜ ʏᴏᴜʀ ᴡᴀɪғᴜ ʙᴏᴛ,
+ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs, ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
+⍟ sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ʙʏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.
+◎ ─━──━─❖─━──━─ ◎
 
 ʜɪᴛ help ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴍᴇ.***
         """
         keyboard = [
-            [InlineKeyboardButton("Add Me", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
-            [InlineKeyboardButton("Help", callback_data='help'),
-             InlineKeyboardButton("Support", url=f'https://t.me/{SUPPORT_CHAT}')],
-            [InlineKeyboardButton("Updates", url=f'https://t.me/{UPDATE_CHAT}')],
+            [InlineKeyboardButton("✦ ᴀᴅᴅ ᴍᴇ ✦", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
+            [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='¤ ʜᴇʟᴘ ¤'),
+             InlineKeyboardButton("⌬ sᴜᴘᴘᴏʀᴛ ⌬", url=f'https://t.me/{SUPPORT_CHAT}')],
+            [InlineKeyboardButton("⍟ ᴜᴘᴅᴀᴛᴇs ⍟", url=f'https://t.me/{UPDATE_CHAT}')],
             
 ]
         reply_markup = InlineKeyboardMarkup(keyboard)
