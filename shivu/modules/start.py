@@ -35,7 +35,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         
         
         caption = f"""
-        ***🎐 ʜᴇʏ ᴛʜᴇʀᴇ...!  {update.effective_user.first_name} 🎐*
+        ***🎐 ʜᴇʏ ᴛʜᴇʀᴇ...!  {update.effective_user.first_name} *
               
 ***◎ ─━──━─❖─━──━─ ◎
 ⍟ ɪ ᴀᴍ ᴄᴀᴛᴄʜ ʏᴏᴜʀ ᴡᴀɪғᴜ ʙᴏᴛ,
@@ -47,7 +47,7 @@ async def start(update: Update, context: CallbackContext) -> None:
                """
         keyboard = [
             [InlineKeyboardButton("✦ ᴀᴅᴅ ᴍᴇ ✦", url=f'http://t.me/Catch_Your_Waifu_Bot?startgroup=new')],
-            [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='¤ ʜᴇʟᴘ ¤'),
+            [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='help'),
              InlineKeyboardButton("⌬ sᴜᴘᴘᴏʀᴛ ⌬", url=f'https://t.me/{SUPPORT_CHAT}')],
             [InlineKeyboardButton("⍟ ᴜᴘᴅᴀᴛᴇs ⍟", url=f'https://t.me/{UPDATE_CHAT}')],
             
@@ -61,7 +61,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         photo_url = random.choice(PHOTO_URL)
         keyboard = [
             
-            [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='¤ ʜᴇʟᴘ ¤'),
+            [InlineKeyboardButton("help", callback_data='help'),
              InlineKeyboardButton("⌬ sᴜᴘᴘᴏʀᴛ ⌬", url=f'https://t.me/{SUPPORT_CHAT}')],
             
   ]
@@ -95,7 +95,7 @@ async def button(update: Update, context: CallbackContext) -> None:
     elif query.data == 'back':
 
         caption = f"""
-        ***🎐 ʜᴇʏ ᴛʜᴇʀᴇ...! {update.effective_user.first_name} 🎐*
+        ***🎐 ʜᴇʏ ᴛʜᴇʀᴇ...! {update.effective_user.first_name} *
               
 ***◎ ─━──━─❖─━──━─ ◎
 ⍟ ɪ ᴀᴍ ᴄᴀᴛᴄʜ ʏᴏᴜʀ ᴡᴀɪғᴜ ʙᴏᴛ,
