@@ -46,7 +46,7 @@ async def start(update: Update, context: CallbackContext) -> None:
 ʜɪᴛ help ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴍᴇ.***
                """
         keyboard = [
-            [InlineKeyboardButton("✦ ᴀᴅᴅ ᴍᴇ ✦", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
+            [InlineKeyboardButton("✦ ᴀᴅᴅ ᴍᴇ ✦", url=f'http://t.me/Catch_Your_Waifu_Bot?startgroup=new')],
             [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='¤ ʜᴇʟᴘ ¤'),
              InlineKeyboardButton("⌬ sᴜᴘᴘᴏʀᴛ ⌬", url=f'https://t.me/{SUPPORT_CHAT}')],
             [InlineKeyboardButton("⍟ ᴜᴘᴅᴀᴛᴇs ⍟", url=f'https://t.me/{UPDATE_CHAT}')],
@@ -106,7 +106,7 @@ async def button(update: Update, context: CallbackContext) -> None:
 ʜɪᴛ help ᴛᴏ ғɪɴᴅ ᴏᴜᴛ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴛᴏ ᴜsᴇ ᴍᴇ.***
         """
         keyboard = [
-            [InlineKeyboardButton("✦ ᴀᴅᴅ ᴍᴇ ✦", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
+            [InlineKeyboardButton("✦ ᴀᴅᴅ ᴍᴇ ✦", url=f'http://t.me/Catch_Your_Waifu_Bot?startgroup=new')],
             [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='¤ ʜᴇʟᴘ ¤'),
              InlineKeyboardButton("⌬ sᴜᴘᴘᴏʀᴛ ⌬", url=f'https://t.me/{SUPPORT_CHAT}')],
             [InlineKeyboardButton("⍟ ᴜᴘᴅᴀᴛᴇs ⍟", url=f'https://t.me/{UPDATE_CHAT}')],
