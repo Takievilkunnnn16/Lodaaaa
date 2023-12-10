@@ -1,18 +1,13 @@
 from telegram import Update
 from itertools import groupby
-import urllib.request
-import re
 import math
-import html
+from html import escape 
 import random
-from collections import Counter
-from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, filters
-from shivu import db, collection, user_totals_collection, user_collection, top_global_groups_collection, top_global_groups_collection, group_user_totals_collection, application
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultPhoto, InputTextMessageContent, InputMediaPhoto
-from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardMarkup, InlineKeyboardButton
-import asyncio
-from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, filters
-from telegram.ext import InlineQueryHandler,CallbackQueryHandler, ChosenInlineResultHandler
+
+from telegram.ext import CommandHandler, CallbackContext, CallbackQueryHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
+from shivu import collection, user_collection, application
 
 async def harem(update: Update, context: CallbackContext, page=0) -> None:
     user_id = update.effective_user.id
@@ -20,9 +15,9 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
     user = await user_collection.find_one({'id': user_id})
     if not user:
         if update.message:
-            await update.message.reply_text('You have not guessed any characters yet.')
+            await update.message.reply_text('You Have Not Guessed any Characters Yet..')
         else:
-            await update.callback_query.edit_message_text('You have not guessed any characters yet.')
+            await update.callback_query.edit_message_text('You Have Not Guessed any Characters Yet..')
         return
 
     characters = sorted(user['characters'], key=lambda x: (x['anime'], x['id']))
@@ -33,13 +28,12 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
     unique_characters = list({character['id']: character for character in characters}.values())
 
     
-    total_pages = math.ceil(len(unique_characters) / 15)  # Number of characters divided by 15 characters per page, rounded up
-
+    total_pages = math.ceil(len(unique_characters) / 15)  
 
     if page < 0 or page >= total_pages:
         page = 0  
 
-    harem_message = f"<b>{update.effective_user.first_name}'s Harem - Page {page+1}/{total_pages}</b>\n"
+    harem_message = f"<b>{escape(update.effective_user.first_name)}'s Harem - Page {page+1}/{total_pages}</b>\n"
 
     
     current_characters = unique_characters[page*15:(page+1)*15]
@@ -48,19 +42,19 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
     current_grouped_characters = {k: list(v) for k, v in groupby(current_characters, key=lambda x: x['anime'])}
 
     for anime, characters in current_grouped_characters.items():
-        harem_message += f'\n🏖️ <b>{anime} {len(characters)}/{await collection.count_documents({"anime": anime})}</b>\n'
+        harem_message += f'\n<b>{anime} {len(characters)}/{await collection.count_documents({"anime": anime})}</b>\n'
 
         for character in characters:
             
-            count = character_counts[character['id']]  # Get the count from the character_counts dictionary
+            count = character_counts[character['id']]  
             harem_message += f'{character["id"]} {character["name"]} ×{count}\n'
 
-         
+
     total_count = len(user['characters'])
     
-    keyboard = [[InlineKeyboardButton(f"See All Characters ({total_count})", switch_inline_query_current_chat=str(user_id))]]
+    keyboard = [[InlineKeyboardButton(f"See Collection ({total_count})", switch_inline_query_current_chat=f"collection.{user_id}")]]
 
-    
+
     if total_pages > 1:
         
         nav_buttons = []
@@ -113,7 +107,7 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
                         await update.callback_query.edit_message_text(harem_message, parse_mode='HTML', reply_markup=reply_markup)
         else:
             if update.message:
-                await update.message.reply_text("Your list is empty.")
+                await update.message.reply_text("Your List is Empty :)")
 
 
 async def harem_callback(update: Update, context: CallbackContext) -> None:
@@ -123,20 +117,22 @@ async def harem_callback(update: Update, context: CallbackContext) -> None:
 
     _, page, user_id = data.split(':')
 
-    
+
     page = int(page)
     user_id = int(user_id)
 
     
     if query.from_user.id != user_id:
-        await query.answer("Don't Stalk Other User's Harem.. lmao", show_alert=True)
+        await query.answer("its Not Your Harem", show_alert=True)
         return
 
     
     await harem(update, context, page)
 
 
-application.add_handler(CommandHandler("collection", harem,block=False))
+
+
+application.add_handler(CommandHandler(["harem", "collection"], harem,block=False))
 harem_handler = CallbackQueryHandler(harem_callback, pattern='^harem', block=False)
 application.add_handler(harem_handler)
     
