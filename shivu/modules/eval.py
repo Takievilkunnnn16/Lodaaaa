@@ -140,4 +140,4 @@ CLEAR_HANDLER = CommandHandler("clearlocals", clear, block=False)
 
 application.add_handler(EVAL_HANDLER)
 application.add_handler(EXEC_HANDLER)
-application.add_handler(CLEAR_HANDLER
+application.add_handler(CLEAR_HANDLER)
