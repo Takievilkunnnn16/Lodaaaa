@@ -71,7 +71,7 @@ async def execute(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 def cleanup_code(code):
-    if code.startswith("Taki") and code.endswith("kun"):
+    if code.startswith("'''") and code.endswith("'''"):
         return "\n".join(code.split("\n")[1:-1])
     return code.strip("` \n")
 
@@ -90,7 +90,7 @@ async def do(func, bot, update):
 
     stdout = io.StringIO()
 
-    to_compile = f'async def func():\n{textwrap.indent(body, "1643054031")}'
+    to_compile = f'async def func():\n{textwrap.indent(body, " ")}'
 
     try:
         exec(to_compile, env)
