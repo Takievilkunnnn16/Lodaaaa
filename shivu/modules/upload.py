@@ -37,7 +37,7 @@ img_url character-name anime-name rarity-number
 
 use rarity number accordingly rarity Map
 
-rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medium), 5 (💮 Special edition)""")
+rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medium), 5 (💮 Special edition),6 (🎄𝑪𝒉𝒓𝒊𝒔𝒕𝒎𝒂𝒔🎄), 7 (❄️ Winter special ❄️)""")
 
             
             return
