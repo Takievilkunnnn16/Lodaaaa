@@ -1,16 +1,7 @@
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from motor.motor_asyncio import AsyncIOMotorClient 
-from pyrogram import Client, filters
-from pyrogram.types import InlineQueryResultPhoto, InputTextMessageContent
-from collections import Counter
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
-from pyrogram import enums
-from shivu import db, collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection
-from shivu import shivuu
 
-
-
+from shivu import user_collection, shivuu
 
 pending_trades = {}
 
@@ -60,10 +51,10 @@ async def trade(client, message):
 
     sender_character_id, receiver_character_id = message.command[1], message.command[2]
 
-    # Add the trade offer to the pending trades
+    
     pending_trades[(sender_id, receiver_id)] = (sender_character_id, receiver_character_id)
 
-    # Create a confirmation button
+    
     keyboard = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("Confirm Trade", callback_data="confirm_trade")],
@@ -120,7 +111,7 @@ async def on_callback_query(client, callback_query):
         
         del pending_trades[(sender_id, receiver_id)]
 
-        await callback_query.message.edit_text("❌️ Sad Cancelled....")
+        await callback_query.message.edit_text("âŒï¸ Sad Cancelled....")
 
 
 
@@ -155,7 +146,7 @@ async def gift(client, message):
     character = next((character for character in sender['characters'] if character['id'] == character_id), None)
 
     if not character:
-        await message.reply_text("You don't have this character in your harem!")
+        await message.reply_text("You don't have this character in your collection!")
         return
 
     
@@ -173,7 +164,7 @@ async def gift(client, message):
         ]
     )
 
-    await message.reply_text(f"do You Really Wanns To Gift {message.reply_to_message.from_user.mention}?", reply_markup=keyboard)
+    await message.reply_text(f"Do you really wanna gift {character["name"]} {message.reply_to_message.from_user.mention} ?", reply_markup=keyboard)
 
 @shivuu.on_callback_query(filters.create(lambda _, __, query: query.data in ["confirm_gift", "cancel_gift"]))
 async def on_callback_query(client, callback_query):
@@ -211,6 +202,4 @@ async def on_callback_query(client, callback_query):
         
         del pending_gifts[(sender_id, receiver_id)]
 
-        await callback_query.message.edit_text(f"You have successfully gifted your character to [{gift['receiver_first_name']}](tg://user?id={receiver_id})!")
-
-
+        await callback_query.message.edit_text(f"You have successfully gifted character to [{gift['receiver_first_name']}](tg://user?id={receiver_id})!")
