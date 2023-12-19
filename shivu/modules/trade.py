@@ -206,3 +206,8 @@ async def on_callback_query(client, callback_query):
         del pending_gifts[(sender_id, receiver_id)]
 
         await callback_query.message.edit_text(f"Character gifted successfully")
+    elif  callback_query.data == "cancel_gift":
+
+        del pending_gifts[(sender_id, receiver_id)]
+
+        await callback_query.message.edit_text("Cancelled")
