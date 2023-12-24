@@ -1,11 +1,14 @@
-import re
+from telegram.ext import InlineQueryHandler,CallbackQueryHandler, ChosenInlineResultHandler, CallbackContext, Updater
+from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultPhoto
+import asyncio
 import time
-from html import escape
+from telegram import Update
+from shivu import application 
+from shivu import user_collection, collection
+import re
+from collections import Counter
+from telegram import InlineQueryResultPhoto, InputTextMessageContent
 
-from telegram import Update, InlineQueryResultPhoto
-from telegram.ext import InlineQueryHandler, CallbackContext
-
-from shivu import user_collection, collection, application
 
 async def inlinequery(update: Update, context: CallbackContext) -> None:
     query = update.inline_query.query
@@ -48,9 +51,9 @@ async def inlinequery(update: Update, context: CallbackContext) -> None:
         if query.startswith('collection.'):
             user_character_count = sum(c['id'] == character['id'] for c in user['characters'])
             user_anime_characters = sum(c['anime'] == character['anime'] for c in user['characters'])
-            caption = f"<b> Look At <a href='tg://user?id={user['id']}'>{(escape(user.get('first_name', user['id'])))}</a>'s Character</b>\n\n🌸: <b>{character['name']} (x{user_character_count})</b>\n🍁: <b>{character['anime']} ({user_anime_characters}/{anime_characters})</b>\n<b>{character['rarity']}</b>\n\n<b>🆔️:</b> {character['id']}"
+            caption = f"<b> Look At <a href='tg://user?id={user['id']}'>{user.get('first_name', user['id'])}</a>'s Character</b>\n\n🌸: <b>{character['name']} (x{user_character_count})</b>\n🏖️: <b>{character['anime']} ({user_anime_characters}/{anime_characters})</b>\n<b>{character['rarity']}</b>\n\n<b>🆔️:</b> {character['id']}"
         else:
-            caption = f"<b>Look At This Character !!</b>\n\n🌸:<b> {character['name']}</b>\n🍁:<b>{character['anime']}</b>\n<b>{character['rarity']}</b>\n🆔️: <b>{character['id']}</b>\n\n<b>Globally Guessed {global_count} Times...</b>"
+            caption = f"<b>Look At This Character !!</b>\n\n🌸:<b> {character['name']}</b>\n🏖️: <b>{character['anime']}</b>\n<b>{character['rarity']}</b>\n🆔️: <b>{character['id']}</b>\n\n<b>Globally Guessed {global_count} Times...</b>"
         results.append(
             InlineQueryResultPhoto(
                 thumbnail_url=character['img_url'],
