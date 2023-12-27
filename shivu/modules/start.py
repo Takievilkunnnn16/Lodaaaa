@@ -38,7 +38,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         ***🎐 ʜᴇʏ ᴛʜᴇʀᴇ...!  {update.effective_user.first_name} *
               
 ***◎ ─━──━─❖─━──━─ ◎
-⍟ ɪ ᴀᴍ ᴄᴀᴛᴄʜ ʏᴏᴜʀ ᴡᴀɪғᴜ ʙᴏᴛ,
+⍟ ɪ ᴀᴍ ᴄᴀᴛᴄʜ ʏᴏᴜʀ ʜᴜꜱʙᴀɴᴅᴏ ʙᴏᴛ,
 ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs, ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
 ⍟ sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ʙʏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.
 ◎ ─━──━─❖─━──━─ ◎
@@ -61,7 +61,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         photo_url = random.choice(PHOTO_URL)
         keyboard = [
             
-            [InlineKeyboardButton("help", callback_data='help'),
+            [InlineKeyboardButton("¤ ʜᴇʟᴘ ¤", callback_data='¤ ʜᴇʟᴘ ¤'),
              InlineKeyboardButton("⌬ sᴜᴘᴘᴏʀᴛ ⌬", url=f'https://t.me/{SUPPORT_CHAT}')],
             
   ]
@@ -98,7 +98,7 @@ async def button(update: Update, context: CallbackContext) -> None:
         ***🎐 ʜᴇʏ ᴛʜᴇʀᴇ...! {update.effective_user.first_name} *
               
 ***◎ ─━──━─❖─━──━─ ◎
-⍟ ɪ ᴀᴍ ᴄᴀᴛᴄʜ ʏᴏᴜʀ ᴡᴀɪғᴜ ʙᴏᴛ,
+⍟ ɪ ᴀᴍ ᴄᴀᴛᴄʜ ʏᴏᴜʀ ʜᴜꜱʙᴀɴᴅᴏ ᴡᴀɪғᴜ ʙᴏᴛ,
 ɪ sᴘᴀᴡɴ ᴀɴɪᴍᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘs, ᴀɴᴅ ʟᴇᴛ ᴜsᴇʀs ᴄᴏʟʟᴇᴄᴛ ᴛʜᴇᴍ.
 ⍟ sᴏ ᴡʜᴀᴛ ᴀʀᴇ ʏᴏᴜ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ʙʏ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.
 ◎ ─━──━─❖─━──━─ ◎
