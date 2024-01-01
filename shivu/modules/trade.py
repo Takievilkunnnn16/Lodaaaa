@@ -6,7 +6,7 @@ from shivu import user_collection, shivuu
 pending_trades = {}
 
 
-@shivuu.on_message(filters.command("trade"))
+@shivuu.on_message(filters.command("htrade"))
 async def trade(client, message):
     sender_id = message.from_user.id
 
