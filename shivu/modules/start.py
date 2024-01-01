@@ -79,8 +79,8 @@ async def button(update: Update, context: CallbackContext) -> None:
     
 ***/guess: To Guess character (only works in group)***
 ***/fav: Add Your fav***
-***/trade : To trade Characters***
-***/gift: Give any Character from Your Collection to another user.. (only works in groups)***
+***/htrade : To trade Characters***
+***/hgift: Give any Character from Your Collection to another user.. (only works in groups)***
 ***/hharem: To see Your harem list***
 ***/topgroups : See Top Groups.. Ppl Guesses Most in that Groups***
 ***/top: Too See Top Users***
