@@ -78,7 +78,7 @@ async def button(update: Update, context: CallbackContext) -> None:
     ***Help Section :***
     
 ***/guess: To Guess character (only works in group)***
-***/fav: Add Your fav***
+***/hfav: Add Your fav***
 ***/htrade : To trade Characters***
 ***/hgift: Give any Character from Your Collection to another user.. (only works in groups)***
 ***/hharem: To see Your harem list***
