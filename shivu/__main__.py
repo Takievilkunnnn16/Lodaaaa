@@ -234,12 +234,12 @@ async def fav(update: Update, context: CallbackContext) -> None:
         return
 
     
-    user['h favorites'] = [character_id]
+    user['favorites'] = [character_id]
 
     
-    await user_collection.update_one({'id': user_id}, {'$set': {'h favorites': user['h favorites']}})
+    await user_collection.update_one({'id': user_id}, {'$set': {'h favorites': user['favorites']}})
 
-    await update.message.reply_text(f'Character {character["name"]} has been added to your hharem favorites.')
+    await update.message.reply_text(f'Character {character["name"]} has been added to your favorites.')
     
 
 def main() -> None:
@@ -247,7 +247,7 @@ def main() -> None:
     
     
     application.add_handler(CommandHandler(["guess", "protecc", "collect", "grab", "hunt"], guess, block=False))
-    application.add_handler(CommandHandler("hfav", hfav, block=False))
+    application.add_handler(CommandHandler("hfav", fav, block=False))
     application.add_handler(MessageHandler(filters.ALL, message_counter, block=False))
     application.run_polling(drop_pending_updates=True)
     
