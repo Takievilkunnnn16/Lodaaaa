@@ -6,7 +6,7 @@ import math
 from html import escape 
 import random
 
-from telegram.ext import CommandHandler, CallbackContext, CallbackQueryHandler, CallbackQuery
+from telegram.ext import CommandHandler, CallbackContext, CallbackQueryHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from shivu import collection, user_collection, application
@@ -133,7 +133,7 @@ async def harem_callback(update: Update, context: CallbackContext) -> None:
     
     await harem(update, context, page) 
 
-async def close(update: Update, context: CallbackQuery) -> None:
+async def close(update: Update, context: CallbackContext) -> None:
     query = query.message
     await query.delete()
 
