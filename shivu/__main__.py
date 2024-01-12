@@ -116,7 +116,7 @@ async def send_image(update: Update, context: CallbackContext) -> None:
     await context.bot.send_photo(
         chat_id=chat_id,
         photo=character['img_url'],
-        caption="""Gʀᴇᴀᴛ! 🎐ᴀ ɴᴇᴡ ᴡᴀɪғᴜ ʜᴀs ᴊᴜsᴛ ᴀᴘᴘᴇᴀʀᴇᴅ ᴜsᴇ /guess [ɴᴀᴍᴇ]""",
+        caption="""Gʀᴇᴀᴛ! 🎐ᴀ ɴᴇᴡ ʜᴜꜱʙᴀɴᴅᴏ ʜᴀs ᴊᴜsᴛ ᴀᴘᴘᴇᴀʀᴇᴅ ᴜsᴇ /guess [ɴᴀᴍᴇ]""",
         parse_mode='Markdown')
     
 async def guess(update: Update, context: CallbackContext) -> None:
@@ -247,7 +247,7 @@ def main() -> None:
     
     
     application.add_handler(CommandHandler(["guess", "protecc", "collect", "grab", "hunt"], guess, block=False))
-    application.add_handler(CommandHandler("fav", fav, block=False))
+    application.add_handler(CommandHandler("hfav", fav, block=False))
     application.add_handler(MessageHandler(filters.ALL, message_counter, block=False))
     application.run_polling(drop_pending_updates=True)
     
