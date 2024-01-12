@@ -28,7 +28,7 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
     unique_characters = list({character['id']: character for character in characters}.values())
 
     
-    total_pages = math.ceil(len(unique_characters) / 15)  
+    total_pages = math.ceil(len(unique_characters) / 10)  
 
     if page < 0 or page >= total_pages:
         page = 0  
@@ -36,7 +36,7 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
     harem_message = f"<b>{escape(update.effective_user.first_name)}'s Harem - Page {page+1}/{total_pages}</b>\n"
 
     
-    current_characters = unique_characters[page*15:(page+1)*15]
+    current_characters = unique_characters[page*10:(page+1)*10]
 
     
     current_grouped_characters = {k: list(v) for k, v in groupby(current_characters, key=lambda x: x['anime'])}
