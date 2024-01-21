@@ -39,7 +39,7 @@ shivuu = Client(
     
 )
 client = AsyncIOMotorClient(mongo_url)
-db = client['Character_catcher']
+db = client['Character_catche']
 collection = db['anime_characters_lol']
 user_totals_collection = db['user_totals_lmaoooo']
 user_collection = db["user_collection_lmaoooo"]
