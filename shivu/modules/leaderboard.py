@@ -141,7 +141,7 @@ async def broadcast(update: Update, context: CallbackContext) -> None:
 async def stats(update: Update, context: CallbackContext) -> None:
     
     if str(update.effective_user.id) not in OWNER_ID:
-        update.message.reply_text('only For Sudo users...')
+        await update.message.reply_text('only For Sudo users...')
         return
 
     
@@ -202,4 +202,3 @@ application.add_handler(CommandHandler('groups', send_groups_document, block=Fal
 
 application.add_handler(CommandHandler('top', leaderboard, block=False))
 application.add_handler(CommandHandler('broadcast', broadcast, block=False))
-
