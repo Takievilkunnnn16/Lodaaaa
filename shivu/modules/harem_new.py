@@ -63,16 +63,16 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
         fav_character = next((c for c in user['characters'] if c['id'] == fav_character_id), None)
         if fav_character and 'img_url' in fav_character:
             if update.message:
-                await update.message.reply_photo(photo=fav_character['img_url'], parse_mode='HTML', caption=harem_message, reply_markup=reply_markup)
+                await update.message.reply_photo(photo=fav_character['img_url'], caption=harem_message, reply_markup=reply_markup)
             else:
                 if update.callback_query.message.caption != harem_message:
                     await update.callback_query.edit_message_caption(caption=harem_message, reply_markup=reply_markup, parse_mode='HTML')
         else:
             if update.message:
-                await update.message.reply_text(harem_message, parse_mode='HTML', reply_markup=reply_markup)
+                await update.message.reply_text(harem_message, reply_markup=reply_markup)
             else:
                 if update.callback_query.message.text != harem_message:
-                    await update.callback_query.edit_message_text(harem_message, parse_mode='HTML', reply_markup=reply_markup)
+                    await update.callback_query.edit_message_text(harem_message, reply_markup=reply_markup)
     else:
         if user['characters']:
             random_character = random.choice(user['characters'])
@@ -81,13 +81,13 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
                     await update.message.reply_photo(photo=random_character['img_url'], caption=harem_message, reply_markup=reply_markup)
                 else:
                     if update.callback_query.message.caption != harem_message:
-                        await update.callback_query.edit_message_caption(caption=harem_message, reply_markup=reply_markup, parse_mode='HTML')
+                        await update.callback_query.edit_message_caption(caption=harem_message, reply_markup=reply_markup)
             else:
                 if update.message:
-                    await update.message.reply_text(harem_message, parse_mode='HTML', reply_markup=reply_markup)
+                    await update.message.reply_text(harem_message, reply_markup=reply_markup)
                 else:
                     if update.callback_query.message.text != harem_message:
-                        await update.callback_query.edit_message_text(harem_message, parse_mode='HTML', reply_markup=reply_markup)
+                        await update.callback_query.edit_message_text(harem_message, reply_markup=reply_markup)
         else:
             if update.message:
                 await update.message.reply_text("ʏᴏᴜʀ ʟɪsᴛ ɪs ᴇᴍᴘᴛʏ :)")
