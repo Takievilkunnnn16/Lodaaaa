@@ -19,6 +19,7 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
 
     user = await user_collection.find_one({'id': user_id})
     if not user:
+        print(user)
         if update.message:
             await update.message.reply_text('ʏᴏᴜ ʜᴀᴠᴇ ɴᴏᴛ ɢᴜᴇssᴇᴅ ᴀɴʏ ᴄʜᴀʀᴀᴄᴛᴇʀs ʏᴇᴛ.')
         else:
