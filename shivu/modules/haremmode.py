@@ -1,9 +1,6 @@
+from pyrogram import filtersfrom pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from html import escape 
 from shivu import user_collection, shivuu
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext
-from shivu import collection, user_collection, application
-import asyncio
-from telegram.ext import CommandHandler, MessageHandler, filter
 class HaremManager:
     def __init__(self):
         self.harem = []
