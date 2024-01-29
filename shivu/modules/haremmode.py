@@ -28,7 +28,7 @@ harem_manager.add_to_harem({'name': 'Character2', 'rarity': 'legendary'})
 
 # Change mode
 harem_manager.change_mode("legendary")
-as f("harem_list) 
+as (f"harem_list") 
      reply ("common, medium, rare, legendary, special, special edition, Mythical)
 
 # Get harem in the current mode
