@@ -31,7 +31,3 @@ harem_manager.change_mode("legendary")
 current_mode_harem = harem_manager.get_harem_in_current_mode()
 print(current_mode_harem)
 
-application.add_handler(CommandHandler(["haremmode"], haremmode, block=False))
-    application.add_handler(CommandHandler("changeharem", changeharem, block=False))
-    application.add_handler(MessageHandler(filters.ALL, message_counter, block=False))
-    application.run_polling(drop_pending_updates=True)
