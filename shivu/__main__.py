@@ -19,7 +19,7 @@ import re
 import math
 import html
 from collections import Counter 
-from shivu import db, collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection
+from shivu import db, event_collection as collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection
 from shivu import application, shivuu, LOGGER 
 from shivu.modules import ALL_MODULES
 
@@ -93,7 +93,7 @@ async def send_image(update: Update, context: CallbackContext) -> None:
     if chat_id in first_correct_guesses:
         del first_correct_guesses[chat_id]
 
-    all_characters = list(await collection.find({}).to_list(length=None))
+    all_characters = list(await collection.find({'rarity':'💖 Valentine'}).to_list(length=None))
     
     
     if chat_id not in sent_characters:
