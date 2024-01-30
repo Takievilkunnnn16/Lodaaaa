@@ -41,6 +41,7 @@ shivuu = Client(
 client = AsyncIOMotorClient(mongo_url)
 db = client['Character_catche']
 collection = db['anime_characters_lol']
+event_collection = db['Event_Characters']
 user_totals_collection = db['user_totals_lmaoooo']
 user_collection = db["user_collection_lmaoooo"]
 group_user_totals_collection = db['group_user_totalsssssss']

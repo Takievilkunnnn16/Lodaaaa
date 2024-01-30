@@ -8,7 +8,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import urllib.request
 from pymongo import MongoClient, ReturnDocument
 import random
-from shivu import application, sudo_users, collection,event_collection, db, CHARA_CHANNEL_ID
+from shivu import application, sudo_users, event_collection as collection, db, CHARA_CHANNEL_ID
+
+rarity_map = {1: "💖 Valentine"}
 
 async def get_next_sequence_number(sequence_name):
     sequence_collection = db.sequences
@@ -22,7 +24,7 @@ async def get_next_sequence_number(sequence_name):
         return 0
     return sequence_document['sequence_value']
 
-async def upload(update: Update, context: CallbackContext) -> None:
+async def event_upload(update: Update, context: CallbackContext) -> None:
     if str(update.effective_user.id) not in sudo_users:
         await update.message.reply_text('Ask My Owner...')
         return
@@ -30,14 +32,14 @@ async def upload(update: Update, context: CallbackContext) -> None:
     try:
         args = context.args
         if len(args) != 4:
-            await update.message.reply_text("""
+            await update.message.reply_text(f"""
         Wrong ❌️ format...  eg. /upload Img_url muzan-kibutsuji Demon-slayer 3
 
 img_url character-name anime-name rarity-number
 
 use rarity number accordingly rarity Map
 
-rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medium), 5 (💮 Exclusive),6 (🔮 Mythical ), 7 (🫧 Special)""")
+rarity_map = {", ".join(rarity_map)}""")
 
             
             return
@@ -51,11 +53,10 @@ rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medi
             await update.message.reply_text('Invalid URL.')
             return
 
-        rarity_map = {1: "⚪ Common", 2: "🟣 Rare", 3: "🟡 Legendary", 4: "🟢 Medium", 5: "💮 Exclusive", 6: "🔮 Mythical", 7: "🫧 Special"}
         try:
             rarity = rarity_map[int(args[3])]
         except KeyError:
-            await update.message.reply_text('Invalid rarity. Please use 1, 2, 3, 4, 5, 6, or 7.')
+            await update.message.reply_text(f'Invalid rarity. Please use {", ".join(rarity_map)}')
             return
 
         id = str(await get_next_sequence_number('character_id')).zfill(2)
@@ -83,7 +84,7 @@ rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medi
     except Exception as e:
         await update.message.reply_text(f'Unsuccessfully uploaded. Error: {str(e)}')
 
-async def delete(update: Update, context: CallbackContext) -> None:
+async def event_delete(update: Update, context: CallbackContext) -> None:
     if str(update.effective_user.id) not in sudo_users:
         await update.message.reply_text('Ask my Owner to use this Command...')
         return
@@ -106,7 +107,7 @@ async def delete(update: Update, context: CallbackContext) -> None:
     except Exception as e:
         await update.message.reply_text(f'{str(e)}')
 
-async def update(update: Update, context: CallbackContext) -> None:
+async def event_update(update: Update, context: CallbackContext) -> None:
     if str(update.effective_user.id) not in sudo_users:
         await update.message.reply_text('You do not have permission to use this command.')
         return
@@ -133,11 +134,11 @@ async def update(update: Update, context: CallbackContext) -> None:
         if args[1] in ['name', 'anime']:
             new_value = args[2].replace('-', ' ').title()
         elif args[1] == 'rarity':
-            rarity_map = {1: "⚪ Common", 2: "🟣 Rare", 3: "🟡 Legendary", 4: "🟢 Medium", 5: "💮 Exclusive", 6: "🔮 Mythical", 7: "🫧 Special"}
+
             try:
                 new_value = rarity_map[int(args[2])]
             except KeyError:
-                await update.message.reply_text('Invalid rarity. Please use 1, 2, 3, 4, 5, 6, or 7.')
+                await update.message.reply_text(f'Invalid rarity. Please use {", ".join(rarity_map)}')
                 return
         else:
             new_value = args[2]
@@ -168,9 +169,9 @@ async def update(update: Update, context: CallbackContext) -> None:
     except Exception as e:
         await update.message.reply_text(f'I guess did not added bot in channel.. or character uploaded Long time ago.. Or character not exits.. orr Wrong id')
 
-UPLOAD_HANDLER = CommandHandler('upload', upload, block=False)
-application.add_handler(UPLOAD_HANDLER)
-DELETE_HANDLER = CommandHandler('delete', delete, block=False)
-application.add_handler(DELETE_HANDLER)
-UPDATE_HANDLER = CommandHandler('update', update, block=False)
-application.add_handler(UPDATE_HANDLER)
+EVENT_UPLOAD_HANDLER = CommandHandler('event', event_upload, block=False)
+application.add_handler(EVENT_UPLOAD_HANDLER)
+EVENT_DELETE_HANDLER = CommandHandler('edelete', event_update, block=False)
+application.add_handler(EVENT_DELETE_HANDLER)
+EVENT_UPDATE_HANDLER = CommandHandler('eupdate', event_delete, block=False)
+application.add_handler(EVENT_UPDATE_HANDLER)
