@@ -73,4 +73,4 @@ async def kill(update: Update, context: CallbackContext) -> None:
 
 
 application.add_handler(CommandHandler("add", add, filters.User(DEV_LIST), block=False))
-application.add_handler(CommandHandler("kill", kill, filters.User(DEV_LIST), block=False))
+application.add_handler(CommandHandler("hkill", kill, filters.User(DEV_LIST), block=False))
