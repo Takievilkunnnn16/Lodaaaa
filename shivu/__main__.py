@@ -99,7 +99,7 @@ async def more_details_callback(update: Update, context: CallbackContext):
     user_mention = f"[{update.effective_user.first_name}](tg://user?id={update.effective_user.id})"
     
     details_message = f"""
-**🎐OᴡO ! ᴄʜᴇᴄᴋ ᴏᴜᴛ ᴛʜɪs ᴄʜᴀʀᴀᴄᴛᴇʀ !**
+**🎐OᴡO ᴄʜᴇᴄᴋ ᴏᴜᴛ ᴛʜɪs ᴄʜᴀʀᴀᴄᴛᴇʀ**
 
 **🫧 ɴᴀᴍᴇ** : `{character_name}`
 🦄 **ᴀɴɪᴍᴇ** : `{anime_name}`
