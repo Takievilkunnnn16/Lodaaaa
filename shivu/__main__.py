@@ -31,7 +31,8 @@ last_characters = {}
 sent_characters = {}
 first_correct_guesses = {}
 message_counts = {}
-
+archived_characters = {}
+ran_away_count = {}
 
 for module_name in ALL_MODULES:
     imported_module = importlib.import_module("shivu.modules." + module_name)
@@ -42,6 +43,72 @@ warned_users = {}
 def escape_markdown(text):
     escape_chars = r'\*_`\\~>#+-=|{}.!'
     return re.sub(r'([%s])' % re.escape(escape_chars), r'\\\1', text)
+
+async def ran_away(update: Update, context: CallbackContext) -> None:
+    chat_id = update.effective_chat.id
+
+    if chat_id in last_characters:
+        if chat_id not in ran_away_count:
+            ran_away_count[chat_id] = 0
+
+        ran_away_count[chat_id] += 1
+
+        character_data = last_characters[chat_id]
+        character_name = character_data['name']
+
+        # Check if 15 messages have been reached before running away
+        if ran_away_count[chat_id] > 20:
+            character_photo_url = character_data['img_url']
+            rarity = character_data['rarity']
+            char_id = character_data['id']
+
+            if chat_id in first_correct_guesses:
+                # Check if chat_id exists in ran_away_count before deletion
+                if chat_id in ran_away_count:
+                    del ran_away_count[chat_id]
+            else:
+                reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("More Details", callback_data='more_details')]])
+                message_text = f"Ohh No!! Character `[{character_name}]` Has Been Ran Away From Your Chat Store His/Her Name For Next Time"
+                await context.bot.send_message(chat_id=chat_id, text=message_text, reply_markup=reply_markup, parse_mode='MarkdownV2)
+
+            archived_characters[chat_id] = character_data
+
+            # Check if chat_id exists in ran_away_count before deletion
+            if chat_id in ran_away_count:
+                del ran_away_count[chat_id]
+            del last_characters[chat_id]
+
+
+async def more_details_callback(update: Update, context: CallbackContext):
+    chat_id = update.effective_chat.id
+    character_photo_url = archived_characters[chat_id]['img_url']
+    character_name = archived_characters[chat_id]['name']
+    rarity = archived_characters[chat_id]['rarity']
+    char_id = archived_characters[chat_id]['id']
+    anime_name = archived_characters[chat_id]['anime']
+
+    
+    user_mention = f"[{update.effective_user.first_name}](tg://user?id={update.effective_user.id})"
+    
+    details_message = f"""
+**🎐OᴡO ! ᴄʜᴇᴄᴋ ᴏᴜᴛ ᴛʜɪs ᴄʜᴀʀᴀᴄᴛᴇʀ !**
+
+**🫧 ɴᴀᴍᴇ** : `{character_name}`
+🦄 **ᴀɴɪᴍᴇ** : `{anime_name}`
+{rarity[0]} **ʀᴀʀɪᴛʏ** : `{rarity[2:]}`
+
+❄️ **ᴄʜᴀʀᴀᴄᴛᴇʀ ɪᴅ:** `{char_id}`
+
+**ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {user_mention}
+"""
+
+
+    await context.bot.send_photo(
+        chat_id=chat_id,
+        photo=character_photo_url,
+        caption=details_message,
+        parse_mode='MarkdownV2'
+    )
 
 
 async def message_counter(update: Update, context: CallbackContext) -> None:
