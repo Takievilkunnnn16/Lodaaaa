@@ -44,6 +44,14 @@ def escape_markdown(text):
     escape_chars = r'\*_`\\~>#+-=|{}.!'
     return re.sub(r'([%s])' % re.escape(escape_chars), r'\\\1', text)
 
+keyboard = InlineKeyboardMarkup(
+    [[InlineKeyboardButton("🚮", callback_data="delete_message")]]
+)
+
+async def callback_handler(update, context):
+    if update.callback_query.data == "delete_message":
+        await update.callback_query.message.delete()
+
 async def ran_away(update: Update, context: CallbackContext) -> None:
     chat_id = update.effective_chat.id
 
@@ -67,8 +75,8 @@ async def ran_away(update: Update, context: CallbackContext) -> None:
                 if chat_id in ran_away_count:
                     del ran_away_count[chat_id]
             else:
-                reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("More Details", callback_data='more_details')]])
-                message_text = f"Ohh No!! Character `[{character_name}]` Has Been Ran Away From Your Chat Store His/Her Name For Next Time"
+                reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(f"ɪɴꜰᴏ", callback_data='more_details')]])
+                message_text = f"❄️ᴄʜᴀʀᴀᴄᴛᴇʀ ʜᴀs ᴅɪsᴀᴘᴘᴇᴀʀᴇᴅ: `{character_name}` \nɢᴇᴛ ɪɴꜰᴏ:"
                 await context.bot.send_message(chat_id=chat_id, text=message_text, reply_markup=reply_markup, parse_mode='MarkdownV2)
 
             archived_characters[chat_id] = character_data
@@ -107,7 +115,8 @@ async def more_details_callback(update: Update, context: CallbackContext):
         chat_id=chat_id,
         photo=character_photo_url,
         caption=details_message,
-        parse_mode='MarkdownV2'
+        parse_mode='MarkdownV2',
+        reply_markup=keyboard
     )
 
 
@@ -320,6 +329,7 @@ def main() -> None:
     application.add_handler(CommandHandler("hfav", fav, block=False))
     application.add_handler(MessageHandler(filters.ALL, message_counter, block=False))
     application.add_handler(CallbackQueryHandler(more_details_callback, pattern='^more_details', block=False))
+    application.add_handler(CallbackQueryHandler(callback_handler, pattern='^delete_message', block=False))
     application.run_polling(drop_pending_updates=True)
     
 if __name__ == "__main__":
