@@ -153,7 +153,10 @@ async def message_counter(update: Update, context: CallbackContext) -> None:
             await send_image(update, context)
             
             message_counts[chat_id] = 0
-            
+        await ran_away(update, context)
+
+
+
 async def send_image(update: Update, context: CallbackContext) -> None:
     chat_id = update.effective_chat.id
     
@@ -316,6 +319,7 @@ def main() -> None:
     application.add_handler(CommandHandler(["guess"], guess, block=False))
     application.add_handler(CommandHandler("hfav", fav, block=False))
     application.add_handler(MessageHandler(filters.ALL, message_counter, block=False))
+    application.add_handler(CallbackQueryHandler(more_details_callback, pattern='^more_details', block=False))
     application.run_polling(drop_pending_updates=True)
     
 if __name__ == "__main__":
