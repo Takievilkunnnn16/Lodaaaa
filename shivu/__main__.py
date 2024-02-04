@@ -77,7 +77,7 @@ async def ran_away(update: Update, context: CallbackContext) -> None:
             else:
                 reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(f"ɪɴꜰᴏ", callback_data='more_details')]])
                 message_text = f"❄️ᴄʜᴀʀᴀᴄᴛᴇʀ ʜᴀs ᴅɪsᴀᴘᴘᴇᴀʀᴇᴅ: `{character_name}` \nɢᴇᴛ ɪɴꜰᴏ:"
-                await context.bot.send_message(chat_id=chat_id, text=message_text, reply_markup=reply_markup, parse_mode='MarkdownV2)
+                await context.bot.send_message(chat_id=chat_id, text=message_text, reply_markup=reply_markup, parse_mode='MarkdownV2')
 
             archived_characters[chat_id] = character_data
 
