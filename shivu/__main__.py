@@ -19,7 +19,7 @@ import re
 import math
 import html
 from collections import Counter 
-from shivu import db, collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection
+from shivu import db, collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection,event_collection
 from shivu import application, shivuu, LOGGER 
 from shivu.modules import ALL_MODULES
 
@@ -33,6 +33,7 @@ first_correct_guesses = {}
 message_counts = {}
 archived_characters = {}
 ran_away_count = {}
+event_characters = {}
 
 for module_name in ALL_MODULES:
     imported_module = importlib.import_module("shivu.modules." + module_name)
@@ -183,7 +184,15 @@ async def send_image(update: Update, context: CallbackContext) -> None:
         sent_characters[chat_id] = []
 
     
-    character = random.choice([c for c in all_characters if c['id'] not in sent_characters[chat_id]])
+    if len(sent_characters[chat_id]) % 10 == 0:  # After every 50 characters, send an event character
+        if chat_id not in event_characters:
+            event_characters[chat_id] = list(await event_collection.find({'rarity':'💖 Valentine'}).to_list(length=None))
+        if len(event_characters[chat_id]) == 0:  # If all event characters have been sent, reset the list
+            event_characters[chat_id] = list(await event_collection.find({'rarity':'💖 Valentine'}).to_list(length=None))
+        character = event_characters[chat_id].pop(random.randrange(len(event_characters[chat_id])))
+    
+    else:
+        character = random.choice([c for c in all_characters if c['id'] not in sent_characters[chat_id]])
 
     
     sent_characters[chat_id].append(character['id'])
