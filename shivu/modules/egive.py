@@ -52,4 +52,4 @@ async def give_character_command(client, message):
     except (ValueError, IndexError):
         await message.reply_text("Dear pros, please provide the ID of the character")
     except Exception:
-        await message.reply_text("An error occurred while processing the command. Report @ikaris0_0")
+        await message.reply_text("An error occurred while processing the command. Report @Takievil")
