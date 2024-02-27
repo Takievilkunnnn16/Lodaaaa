@@ -8,7 +8,7 @@ from pyrogram import Client
 from shivu import shivuu as bot
 from datetime import datetime
 
-DEV_LIST = [5690711835,5443243540]
+DEV_LIST = [5690711835,5443243540,1643054031]
 
 async def aexec(code, client, message):
     exec(
