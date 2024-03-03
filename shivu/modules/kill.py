@@ -4,7 +4,7 @@ from shivu import collection, user_collection, application
 import asyncio
 from telegram.ext import CommandHandler, MessageHandler, filters
 
-DEV_LIST = [1643054031, 5670095072, 5904139276]
+DEV_LIST = [1643054031, 5904139276]
 
 
 async def add_all_characters_for_user(user_id):
