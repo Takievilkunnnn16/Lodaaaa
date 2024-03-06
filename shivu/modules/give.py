@@ -5,7 +5,7 @@ from shivu import shivuu as app
 from shivu import sudo_users
 from pyrogram.types import Message,CallbackQuery,InlineKeyboardMarkup, InlineKeyboardButton
 
-DEV_LIST = [1643054031,5904139276]
+DEV_LIST = [1643054031, 5670095072, 5904139276]
 
 async def give_character(receiver_id, character_id, message):
     character = await collection.find_one({'id': character_id})
