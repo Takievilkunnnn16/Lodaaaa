@@ -202,6 +202,10 @@ async def guess(update: Update, context: CallbackContext) -> None:
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
 
+    if update.from_user.id  in warned_users :
+        return await update.message.reply_text(" You are blocked by bot for 10 mint try again later ")
+        
+
     if chat_id not in last_characters:
         return
 
