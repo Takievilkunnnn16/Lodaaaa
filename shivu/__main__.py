@@ -22,6 +22,9 @@ from collections import Counter
 from shivu import db, collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection
 from shivu import application, shivuu, LOGGER 
 from shivu.modules import ALL_MODULES
+from PIL import Image, ImageDraw, ImageFont
+import requests
+from io import BytesIO
 
 
 locks = {}
@@ -165,6 +168,19 @@ async def message_counter(update: Update, context: CallbackContext) -> None:
         await ran_away(update, context)
 
 
+async def write_text_on_image(image_path, text):
+    response = requests.get(image_path)
+    image = Image.open(BytesIO(response.content))
+    draw = ImageDraw.Draw(image)
+    font_size = 35  # Increased font size
+    font_path = "fonts/SwanseaBold-D0ox.ttf"  # Font path
+    font = ImageFont.truetype(font_path, font_size)  # Load font from the specified path
+    text_width, text_height = draw.textbbox((0, 0), text, font=font)[2:]  # Get the width and height of the text
+    image_width, image_height = image.size
+    text_x = (image_width - text_width) // 2
+    text_y = image_height - text_height - 20  # Bottom 
+    draw.text((text_x, text_y), text, fill="white", font=font)
+    return image
 
 async def send_image(update: Update, context: CallbackContext) -> None:
     chat_id = update.effective_chat.id
@@ -188,13 +204,23 @@ async def send_image(update: Update, context: CallbackContext) -> None:
     
     sent_characters[chat_id].append(character['id'])
     last_characters[chat_id] = character
+    text = "@Catch_Your_Husbando_Bot"
+    image_link = character['img_url']
+    modified_image = await write_text_on_image(image_link, text)
+    if modified_image.format == 'PNG':
+        file_extension = 'png'
 
+    elif modified_image.format == 'JPEG':
+        file_extension = 'jpeg'
+    else:
+        file_extension = 'jpg'
+    file_name = f"modified_image.{file_extension}"
+    modified_image.save(file_name)
     
-
     
     await context.bot.send_photo(
         chat_id=chat_id,
-        photo=character['img_url'],
+        photo=open(file_name, "rb"),
         caption=f"""{character['rarity'][0]} Gʀᴇᴀᴛ! ᴀ ɴᴇᴡ ʜᴜꜱʙᴀɴᴅᴏ ʜᴀs ᴊᴜsᴛ ᴀᴘᴘᴇᴀʀᴇᴅ ᴜsᴇ /guess [ɴᴀᴍᴇ]""",
         parse_mode='Markdown')
     
