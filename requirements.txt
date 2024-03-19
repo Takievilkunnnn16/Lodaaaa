@@ -9,4 +9,4 @@ pyrogram
 tgcrypto 
 python-dotenv  
 cachetools 
- 
+pillow 
