@@ -163,4 +163,4 @@ async def callback_handler(update, context):
         await update.callback_query.message.delete()
 
 application.add_handler(CommandHandler('profile', profile, block=False))
-application.add_handler(CallbackQueryHandler(callback_handler, pattern='^delete_message', block=False))`
+application.add_handler(CallbackQueryHandler(callback_handler, pattern='^delete_message', block=False))
