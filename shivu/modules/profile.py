@@ -1,8 +1,6 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, UserProfilePhotos
 from telegram.ext import CommandHandler, CallbackQueryHandler, filters, MessageHandler, Updater
 from shivu import collection, user_collection, event_collection, application
-from shivu.modules.database.ban_user_db import is_user_banned
-from shivu import user_badges
 import os
 import random
 
@@ -48,21 +46,9 @@ async def get_global_rank(username: str) -> int:
 
     return 0
 
-async def count_winter_characters(user_id: int) -> int:
-    user = await user_collection.find_one({'id': user_id})
-
-    if user:
-        winter_characters = [char for char in user.get('characters', []) if char.get('rarity') == '⛄ Winters[S]']
-        return len(winter_characters)
-
-    return 0
 
 async def get_user_async(user):
     pass
-
-async def get_user_badges(user_id):
-    user_badges_doc = await user_badges.find_one({'user_id': user_id})
-    return user_badges_doc.get('badges', []) if user_badges_doc else []
 
 async def get_user_info(user, already=False, update=None):
     if not already:
@@ -72,10 +58,6 @@ async def get_user_info(user, already=False, update=None):
         return ["Deleted account", None]
     user_id = update.effective_user.id
     
-    if await is_user_banned(user_id):
-        is_banned = "User is Banned for using the Bot"
-    else:
-        is_banned = "User is not Banned"
     
     username = update.effective_user.username
     first_name = update.effective_user.first_name
@@ -88,8 +70,6 @@ async def get_user_info(user, already=False, update=None):
         unique_characters = set()
         total_count = sum(1 for char in harem_user['characters'] if char.get('rarity') != '⛄️ Winters[S]' and (char_id := char.get('id')) not in unique_characters and not unique_characters.add(char_id))
         global_count = await collection.count_documents({})
-        event_global_count = await event_collection.count_documents({})
-        event_caught_characters = await count_winter_characters(user_id)
         total_percentage = min((total_count / global_count) * 100, 100)
         Rounded_total_percentage = round(total_percentage, 2)
         progress_bar = generate_progress_bar(Rounded_total_percentage)
@@ -97,20 +77,15 @@ async def get_user_info(user, already=False, update=None):
         global_rank = await get_global_rank(username)
         total_users = await user_collection.count_documents({})
         global_rank_ratio = f"{global_rank}/{total_users}"
-        user_badge_list = await get_user_badges(user_id)
-        badge_text = f"<b><a href='https://t.me/Catch_Emupdate/32'>🏆 ʙᴀᴅɢᴇꜱ:</a></b> {' '.join(user_badge_list)}".strip() if user_badge_list else ""
-
+        
         info_text = (
             f"<b>📊 𝗨𝘀𝗲𝗿'𝘀 𝗣𝗿𝗼𝗳𝗶𝗹𝗲</b> ▰▱▰▱▰▱▰▱▰▱▰▱▰\n\n"
             f"<b>🆔 ɪᴅ:</b> {user_id}\n"
             f"<b>📑 ɴᴀᴍᴇ:</b> {first_name}\n"
-            f"{badge_text}\n"
             f"<b>🔖 ᴜꜱᴇʀɴᴀᴍᴇ:</b> @{username}\n"
             f"<b>⛩️ ᴄʜᴀʀᴀᴄᴛᴇʀꜱ ᴄᴀᴜɢʜᴛ:</b> {caught_characters[0]}\n"
-            f"<b>🎄 ᴇᴠᴇɴᴛ ᴄʜᴀʀᴀᴄᴛᴇʀꜱ:</b> {event_caught_characters}/{event_global_count}\n"
             f"<b>📈 ᴘʀᴏɢʀᴇꜱꜱ ʙᴀʀ:</b> {progress_bar}\n"
-            f"<b>🌐 ɢʟᴏʙᴀʟ ʀᴀɴᴋ:</b> {global_rank_ratio}\n"       
-            f"<b>⚠️ ɪꜱ ʙᴀɴɴᴇᴅ:</b> {is_banned}"       
+            f"<b>🌐 ɢʟᴏʙᴀʟ ʀᴀɴᴋ:</b> {global_rank_ratio}\n"     
         )
      
     return info_text
