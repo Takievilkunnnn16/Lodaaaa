@@ -1,7 +1,4 @@
-**📎 Input**: ` cat shivu/modules/info_ptb.py`
-
-**📒 Output **:
-`from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, UserProfilePhotos
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, UserProfilePhotos
 from telegram.ext import CommandHandler, CallbackQueryHandler, filters, MessageHandler, Updater
 from shivu import collection, user_collection, event_collection, application
 from shivu.modules.database.ban_user_db import is_user_banned
@@ -85,7 +82,7 @@ async def get_user_info(user, already=False, update=None):
     userr = await user_collection.find_one({'id': user_id})
     if not userr:
         caught_characters = "Haven't caught any character"
-        info_text = "Start Me And Secure Some Character's First"
+        info_text = "Start Me And Catch Some Character's First"
     else:
         harem_user = await user_collection.find_one({'id': user_id})
         unique_characters = set()
@@ -138,7 +135,7 @@ async def profile(update, context):
         fav_character_img_url = await get_user_favorite_character_img_url(user_id)
     except Exception as e:
         print(f"Something Went Wrong {e}")
-        return await m.edit_text("Sorry something Went Wrong Report At @The_Catch_Squad")  # Use 'await' here
+        return await m.edit_text("Sorry something Went Wrong Report At @Catch")  # Use 'await' here
 
     keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("sᴇᴇ ᴄᴏʟʟᴇᴄᴛɪᴏɴ", switch_inline_query_current_chat=f"collection.{user}")],
