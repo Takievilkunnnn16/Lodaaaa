@@ -135,7 +135,7 @@ async def profile(update, context):
         fav_character_img_url = await get_user_favorite_character_img_url(user_id)
     except Exception as e:
         print(f"Something Went Wrong {e}")
-        return await m.edit_text("Sorry something Went Wrong Report At @Catch")  # Use 'await' here
+        return await m.edit_text("Sorry something Went Wrong Report At @Catch_Your_WH_Group")  # Use 'await' here
 
     keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("sᴇᴇ ᴄᴏʟʟᴇᴄᴛɪᴏɴ", switch_inline_query_current_chat=f"collection.{user}")],
@@ -148,7 +148,7 @@ async def profile(update, context):
         ]
     )
 
-    if info_text == "Start Me And Secure Some Character's First":
+    if info_text == "Start Me And Catch Some Character's First":
         return await m.edit_text(info_text, reply_markup=reply_markup)  # Use 'await' here
         
     if fav_character_img_url:
@@ -164,3 +164,8 @@ async def callback_handler(update, context):
 
 application.add_handler(CommandHandler('profile', profile, block=False))
 application.add_handler(CallbackQueryHandler(callback_handler, pattern='^delete_message', block=False))`
+
+
+
+
+
