@@ -205,6 +205,6 @@ application.add_handler(CommandHandler("hhmode", add_rarity, block=False))
 add_rarity_handler = CallbackQueryHandler(add_rarity_callback, pattern='^add_rarity', block=False)
 application.add_handler(add_rarity_handler)
 
-application.add_handler(CommandHandler("harem", harem, block=False))
+application.add_handler(CommandHandler("hharem", harem, block=False))
 harem_handler = CallbackQueryHandler(harem_callback, pattern='^harem', block=False)
 application.add_handler(harem_handler)
