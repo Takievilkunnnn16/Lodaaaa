@@ -202,10 +202,10 @@ async def add_rarity_callback(update: Update, context: CallbackContext) -> None:
         # Edit caption to show selected rarity
         await query.message.edit_caption(caption=f"ʏᴏᴜ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ʏᴏᴜʀ ʜᴀʀᴇᴍ ᴍᴏᴅᴇ ʀᴀʀɪᴛʏ ᴀꜱ {rarity}")
 
-application.add_handler(CommandHandler("hmode", add_rarity, block=False))
+application.add_handler(CommandHandler("whmode", add_rarity, block=False))
 add_rarity_handler = CallbackQueryHandler(add_rarity_callback, pattern='^add_rarity', block=False)
 application.add_handler(add_rarity_handler)
 
-application.add_handler(CommandHandler("collection", harem, block=False))
+application.add_handler(CommandHandler("harem", harem, block=False))
 harem_handler = CallbackQueryHandler(harem_callback, pattern='^harem', block=False)
 application.add_handler(harem_handler)
