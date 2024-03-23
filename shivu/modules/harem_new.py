@@ -129,7 +129,7 @@ async def add_rarity(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text("You haven't caught any characters yet.")
         return
     
-    rarities = ["⚪️ Common", "🟢 Medium", "🟣 Rare", "🟡 Legendary", "🎄 Special", "🌤 Summer[LE]", "⛄ Winters[LE]", "💘 Valentine's[LE]", "🧧 New Year[LE]", "🪅 Holi[LE]"]
+    rarities = ["⚪️ Common", "🟣 Rare" , " 🟡 Legendary", "🟢 Medium", "💮 Exclusive", "🔮 Mythical" , "🫧 Special", "💖 valentine",]
     
     # Get the user's current rarity, if available
     current_rarity = user.get('selected_rarity')
@@ -173,8 +173,7 @@ async def add_rarity_callback(update: Update, context: CallbackContext) -> None:
         # Edit caption to show selected rarity
         await query.message.edit_caption(caption="ʏᴏᴜ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ʏᴏᴜʀ ʜᴀʀᴇᴍ ᴍᴏᴅᴇ ᴀꜱ ᴅᴇꜰᴀᴜʟᴛ")
         
-        rarities = ["⚪️ Common", "🟢 Medium", "🟣 Rare", "🟡 Legendary", "🎄 Special", "🌤 Summer[LE]", "⛄ Winters[LE]", "💘 Valentine's[LE]", "🧧 New Year[LE]", "🪅 Holi[LE]"]
-        
+        rarities = [1⚪️ Common", "🟣 Rare" , " 🟡 Legendary", "🟢 Medium", "💮 Exclusive", "🔮 Mythical" , "🫧 Special", "💖 valentine"]
         # Arrange rarities in rows of two
         keyboard = []
         for i in range(0, len(rarities), 2):
