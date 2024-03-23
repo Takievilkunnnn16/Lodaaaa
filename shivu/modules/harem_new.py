@@ -24,10 +24,24 @@ async def harem(update: Update, context: CallbackContext, page=0) -> None:
         else:
             await update.callback_query.edit_message_text('ʏᴏᴜ ʜᴀᴠᴇ ɴᴏᴛ ɢᴜᴇssᴇᴅ ᴀɴʏ ᴄʜᴀʀᴀᴄᴛᴇʀs ʏᴇᴛ.')
         return
+    # Retrieve selected rarity from the user's document
+    selected_rarity = user.get('selected_rarity')
+
     characters = sorted(user['characters'], key=lambda x: (x['anime'], x['id']))
+    
+    # Filter characters based on the selected rarity
+    if selected_rarity:
+        characters = [character for character in characters if character['rarity'][0] == selected_rarity[0]]
+
+    if selected_rarity == 'Default':
+        characters = sorted(user['characters'], key=lambda x: (x['anime'], x['id']))
+        
+
     character_counts = {k: len(list(v)) for k, v in groupby(characters, key=lambda x: x['id'])}
+
     unique_characters = list({character['id']: character for character in characters}.values())
     total_pages = math.ceil(len(unique_characters) / 15)
+
     if page < 0 or page >= total_pages:
         page = 0
     harem_message = f"{update.effective_user.first_name}'s ʜᴀʀᴇᴍ - ᴘᴀɢᴇ {page+1}/{total_pages}\n"   
@@ -103,6 +117,95 @@ async def harem_callback(update: Update, context: CallbackContext) -> None:
 
     await harem(update, context, page)
 
-application.add_handler(CommandHandler("hharem", harem, block=False))
+async def add_rarity(update: Update, context: CallbackContext) -> None:
+    global user_idh
+    user_idh = update.effective_user.id
+    user_id = update.effective_user.id
+    user = await user_collection.find_one({'id': user_id})
+    user_name = update.effective_user.first_name
+    
+    
+    if not user:
+        await update.message.reply_text("You haven't caught any characters yet.")
+        return
+    
+    rarities = ["⚪️ Common", "🟢 Medium", "🟣 Rare", "🟡 Legendary", "🎄 Special", "🌤 Summer[LE]", "⛄ Winters[LE]", "💘 Valentine's[LE]", "🧧 New Year[LE]", "🪅 Holi[LE]"]
+    
+    # Get the user's current rarity, if available
+    current_rarity = user.get('selected_rarity')
+    
+    # Arrange rarities in rows of two
+    keyboard = []
+    for i in range(0, len(rarities), 2):
+        row = [InlineKeyboardButton(f"{rarities[i].title()} {'✅️' if rarities[i] == current_rarity else ''}", 
+                                     callback_data=f"add_rarity:{rarities[i]}")]
+        if i + 1 < len(rarities):
+            row.append(InlineKeyboardButton(f"{rarities[i + 1].title()} {'✅️' if rarities[i + 1] == current_rarity else ''}", 
+                                             callback_data=f"add_rarity:{rarities[i + 1]}"))
+        keyboard.append(row)
+    
+    # Add Default button with ✅️ if current_rarity is "Default"
+    keyboard.append([InlineKeyboardButton(f"ᴅᴇꜰᴀᴜʟᴛ {'✅️' if current_rarity == 'Default' else ''}", callback_data="add_rarity:Default")])
+    
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    image_url = "https://telegra.ph/file/91d3388070584f623b798.jpg"
+    caption = f"{user_name} ᴘʟᴇᴀꜱᴇ ᴄʜᴏᴏꜱᴇ ʀᴀʀɪᴛʏ ᴛʜᴀᴛ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ꜱᴇᴛ ᴀꜱ ʜᴀʀᴇᴍ ᴍᴏᴅᴇ"
+    
+    # Send image with caption and markup keyboard
+    await context.bot.send_photo(chat_id=update.effective_chat.id, photo=image_url, caption=caption, reply_markup=reply_markup)
+
+
+
+async def add_rarity_callback(update: Update, context: CallbackContext) -> None:
+    query = update.callback_query
+    data = query.data
+    user_id = query.from_user.id
+
+    if query.from_user.id != user_idh:
+        await query.answer("its Not Your Harem", show_alert=True)
+        return
+        
+    if data == "add_rarity:Default":
+        # Set default rarity in the user's collection
+        await user_collection.update_one({'id': user_id}, {'$set': {'selected_rarity': 'Default'}})
+        
+        # Edit caption to show selected rarity
+        await query.message.edit_caption(caption="ʏᴏᴜ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ʏᴏᴜʀ ʜᴀʀᴇᴍ ᴍᴏᴅᴇ ᴀꜱ ᴅᴇꜰᴀᴜʟᴛ")
+        
+        rarities = ["⚪️ Common", "🟢 Medium", "🟣 Rare", "🟡 Legendary", "🎄 Special", "🌤 Summer[LE]", "⛄ Winters[LE]", "💘 Valentine's[LE]", "🧧 New Year[LE]", "🪅 Holi[LE]"]
+        
+        # Arrange rarities in rows of two
+        keyboard = []
+        for i in range(0, len(rarities), 2):
+            row = [InlineKeyboardButton(f"{rarities[i].title()} {'✅️' if rarities[i] == 'Default' else ''}", 
+                                         callback_data=f"add_rarity:{rarities[i]}")]
+            if i + 1 < len(rarities):
+                row.append(InlineKeyboardButton(f"{rarities[i + 1].title()} {'✅️' if rarities[i + 1] == 'Default' else ''}", 
+                                                 callback_data=f"add_rarity:{rarities[i + 1]}"))
+            keyboard.append(row)
+        
+        # Add Default button with ✅️
+        keyboard.append([InlineKeyboardButton("ᴅᴇꜰᴀᴜʟᴛ ✅️", callback_data="add_rarity:Default")])
+        
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        # Edit message reply markup
+        await query.message.edit_reply_markup(reply_markup=reply_markup)
+    else:
+        # If a rarity button other than Default is clicked
+        rarity = data.split(":")[1]
+        
+        # Update the user's collection with the selected rarity
+        await user_collection.update_one({'id': user_id}, {'$set': {'selected_rarity': rarity}})
+    
+        # Edit caption to show selected rarity
+        await query.message.edit_caption(caption=f"ʏᴏᴜ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ʏᴏᴜʀ ʜᴀʀᴇᴍ ᴍᴏᴅᴇ ʀᴀʀɪᴛʏ ᴀꜱ {rarity}")
+
+application.add_handler(CommandHandler("hmode", add_rarity, block=False))
+add_rarity_handler = CallbackQueryHandler(add_rarity_callback, pattern='^add_rarity', block=False)
+application.add_handler(add_rarity_handler)
+
+application.add_handler(CommandHandler("collection", harem, block=False))
 harem_handler = CallbackQueryHandler(harem_callback, pattern='^harem', block=False)
 application.add_handler(harem_handler)
