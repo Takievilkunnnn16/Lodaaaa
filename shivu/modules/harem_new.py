@@ -149,7 +149,7 @@ async def add_rarity(update: Update, context: CallbackContext) -> None:
     
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    image_url = "https://telegra.ph/file/91d3388070584f623b798.jpg"
+    image_url = "https://telegra.ph/file/4321a444535aca4086389.png"
     caption = f"{user_name} ᴘʟᴇᴀꜱᴇ ᴄʜᴏᴏꜱᴇ ʀᴀʀɪᴛʏ ᴛʜᴀᴛ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ꜱᴇᴛ ᴀꜱ ʜᴀʀᴇᴍ ᴍᴏᴅᴇ"
     
     # Send image with caption and markup keyboard
