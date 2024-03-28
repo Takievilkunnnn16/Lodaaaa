@@ -129,7 +129,7 @@ async def add_rarity(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text("You haven't caught any characters yet.")
         return
     
-    rarities = ["⚪️ Common", "🟣 Rare" , " 🟡 Legendary", "🟢 Medium", "💮 Exclusive", "🔮 Mythical" , "🫧 Special", "💖 valentine",]
+    rarities = ["⚪️ Common", "🟣 Rare" , "🟡 Legendary", "🟢 Medium", "💮 Exclusive", "🔮 Mythical" , "🫧 Special", "💖 valentine",]
     
     # Get the user's current rarity, if available
     current_rarity = user.get('selected_rarity')
