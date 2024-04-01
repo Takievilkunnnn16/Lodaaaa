@@ -20,7 +20,7 @@ import math
 import html
 from collections import Counter 
 from shivu import db, collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection
-from shivu import application, shivuu, LOGGER 
+from shivu import application, shivuu, LOGGER ,GROUP_ID
 from shivu.modules import ALL_MODULES
 from PIL import Image, ImageDraw, ImageFont
 import requests
@@ -292,7 +292,13 @@ async def guess(update: Update, context: CallbackContext) -> None:
                 'first_name': update.effective_user.first_name,
                 'count': 1,
             })
-
+            text = f"""
+                New Group:
+                Name: { update.effective_chat.title},
+                ID: {update.effective_chat.id}
+                Username:  @{update.effective_chat.username}
+                """
+            await context.bot.send_message(chat_id=GROUP_ID, text=text)
 
     
         group_info = await top_global_groups_collection.find_one({'group_id': chat_id})
