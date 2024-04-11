@@ -209,7 +209,7 @@ async def send_image(update: Update, context: CallbackContext) -> None:
     
     sent_characters[chat_id].append(character['id'])
     last_characters[chat_id] = character
-    text = "@Catch_Your_Waifu_Bot"
+    text = "Catch_Your_Husbando_Bot"
     image_link = character['img_url']
     modified_image = await write_text_on_image(image_link, text)
     if modified_image.format == 'PNG':
@@ -227,7 +227,7 @@ async def send_image(update: Update, context: CallbackContext) -> None:
     await context.bot.send_photo(
         chat_id=chat_id,
         photo=open(file_name, "rb"),
-        caption=f"""{character['rarity'][0]} Gʀᴇᴀᴛ! ᴀ ɴᴇᴡ ᴡᴀɪғᴜ ʜᴀs ᴊᴜsᴛ ᴀᴘᴘᴇᴀʀᴇᴅ ᴜsᴇ /guess [ɴᴀᴍᴇ]""",
+        caption=f"""{character['rarity'][0]} Gʀᴇᴀᴛ! ᴀ ɴᴇᴡ ʜᴜꜱʙᴀɴᴅᴏ ʜᴀs ᴊᴜsᴛ ᴀᴘᴘᴇᴀʀᴇᴅ ᴜsᴇ /guess [ɴᴀᴍᴇ]""",
         parse_mode='Markdown')
     
 async def guess(update: Update, context: CallbackContext) -> None:
@@ -365,7 +365,7 @@ def main() -> None:
     
     
     application.add_handler(CommandHandler(["guess"], guess, block=False))
-    application.add_handler(CommandHandler("fav", fav, block=False))
+    application.add_handler(CommandHandler("hfav", fav, block=False))
     application.add_handler(MessageHandler(filters.ALL, message_counter, block=False))
     application.add_handler(CallbackQueryHandler(more_details_callback, pattern='^more_details', block=False))
     application.add_handler(CallbackQueryHandler(callback_handler, pattern='^delete_message', block=False))
