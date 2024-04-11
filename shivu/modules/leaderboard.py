@@ -97,7 +97,6 @@ async def leaderboard(update: Update, context: CallbackContext) -> None:
 
 from shivu import user_collection
 
-async def event_leaderboard(update: Update, context: CallbackContext) -> None:
 async def etop: Update, context: CallbackContext) -> None:
     
     cursor = user_collection.aggregate([
