@@ -169,9 +169,9 @@ async def event_update(update: Update, context: CallbackContext) -> None:
     except Exception as e:
         await update.message.reply_text(f'I guess did not added bot in channel.. or character uploaded Long time ago.. Or character not exits.. orr Wrong id')
 
-EVENT_UPLOAD_HANDLER = CommandHandler('event', event_upload, block=False)
-application.add_handler(EVENT_UPLOAD_HANDLER)
-EVENT_DELETE_HANDLER = CommandHandler('edelete', event_delete, block=False)
-application.add_handler(EVENT_DELETE_HANDLER)
-EVENT_UPDATE_HANDLER = CommandHandler('eupdate', event_update, block=False)
-application.add_handler(EVENT_UPDATE_HANDLER)
+# EVENT_UPLOAD_HANDLER = CommandHandler('event', event_upload, block=False)
+# application.add_handler(EVENT_UPLOAD_HANDLER)
+# EVENT_DELETE_HANDLER = CommandHandler('edelete', event_delete, block=False)
+# application.add_handler(EVENT_DELETE_HANDLER)
+# EVENT_UPDATE_HANDLER = CommandHandler('eupdate', event_update, block=False)
+# application.add_handler(EVENT_UPDATE_HANDLER)

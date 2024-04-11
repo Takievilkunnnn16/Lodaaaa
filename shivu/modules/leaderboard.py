@@ -94,7 +94,6 @@ async def leaderboard(update: Update, context: CallbackContext) -> None:
 
     await update.message.reply_photo(photo=photo_url, caption=leaderboard_message, parse_mode='HTML')
 
-
 async def broadcast(update: Update, context: CallbackContext) -> None:
     
     if str(update.effective_user.id) == OWNER_ID:
@@ -137,7 +136,6 @@ async def broadcast(update: Update, context: CallbackContext) -> None:
     else:
         await update.message.reply_text('Only Murat Can use')
 
-
 async def stats(update: Update, context: CallbackContext) -> None:
     
     if str(update.effective_user.id) not in OWNER_ID:
@@ -152,9 +150,6 @@ async def stats(update: Update, context: CallbackContext) -> None:
 
 
     await update.message.reply_text(f'Total Users: {user_count}\nTotal groups: {len(group_count)}')
-
-
-
 
 async def send_users_document(update: Update, context: CallbackContext) -> None:
     if str(update.effective_user.id) not in SUDO_USERS:
@@ -191,6 +186,46 @@ async def send_groups_document(update: Update, context: CallbackContext) -> None
         await context.bot.send_document(chat_id=update.effective_chat.id, document=f)
     os.remove('groups.txt')
 
+from shivu import user_collection
+
+async def etop(update: Update, context: CallbackContext) -> None:
+    cursor = user_collection.aggregate([
+        {"$project": {
+            "id": 1,
+            "first_name": 1,
+            "winter_characters": {
+                "$filter": {
+                    "input": "$characters",
+                    "as": "char",
+                    "cond": {"$eq": ["$$char.rarity", "🌤 Summer"]}
+                }
+            }
+        }},
+        {"$project": {"id": 1, "first_name": 1, "winter_character_count": {"$size": "$winter_characters"}}},
+        {"$sort": {"winter_character_count": -1}},
+        {"$limit": 10}
+    ])
+
+    leaderboard_data = await cursor.to_list(length=10)
+
+    leaderboard_message = "<b>Top 10 Summer Securers</b>\n\n"
+
+
+    for i, user in enumerate(leaderboard_data, start=1):
+        username = user.get('id', 'Unknown')
+        first_name = html.escape(user.get('first_name', 'Unknown'))
+
+        if len(first_name) > 10:
+            first_name = first_name[:15] + '...'
+        
+        winter_character_count = user['winter_character_count']
+        leaderboard_message += f'{i}. <a href="tg://user?id={username}"><b>{first_name}</b></a> ➾ <b>{winter_character_count}</b>\n'
+    
+    photo_url = "https://telegra.ph/file/18155c0ac32c5677da6a7.jpg"
+
+    await update.message.reply_photo(photo=photo_url, caption=leaderboard_message, parse_mode='HTML')
+
+application.add_handler(CommandHandler('etop', etop, block=False))
 
 application.add_handler(CommandHandler('ctop', ctop, block=False))
 application.add_handler(CommandHandler('stats', stats, block=False))
