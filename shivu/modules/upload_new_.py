@@ -37,7 +37,7 @@ img_url character-name anime-name rarity-number
 
 use rarity number accordingly rarity Map
 
-rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medium), 5 (💮 Exclusive),6 (🫧 Special ), 7 (🔮 Mythical)""")
+rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medium), 5 (💮 Exclusive),6 (🔮 Mythical ), 7 (🫧 Special)""")
 
             
             return
@@ -51,7 +51,7 @@ rarity_map = 1 (⚪️ Common), 2 (🟣 Rare) , 3 (🟡 Legendary), 4 (🟢 Medi
             await update.message.reply_text('Invalid URL.')
             return
 
-        rarity_map = {1: "⚪ Common", 2: "🟣 Rare", 3: "🟡 Legendary", 4: "🟢 Medium", 5: "💮 Exclusive", 6: "🫧 Special",  7: "🔮 Mythical"}
+        rarity_map =  {1: "⚪ Common", 2: "🟣 Rare", 3: "🟡 Legendary", 4: "🟢 Medium", 5: "💮 Exclusive", 6: "🔮 Mythical", 7: "🫧 Special"}
         try:
             rarity = rarity_map[int(args[3])]
         except KeyError:
