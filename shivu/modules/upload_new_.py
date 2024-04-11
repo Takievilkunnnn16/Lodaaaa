@@ -229,7 +229,7 @@ event_rarity_map = {1: "🌤 Summer"}
         )
 
         character['message_id'] = message.message_id
-        await collection.insert_one(character)
+        await event_collection.insert_one(character)
 
 
         await update.message.reply_text('CHARACTER ADDED....')
@@ -301,7 +301,7 @@ async def eupdate(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text(f'I guess did not added bot in channel.. or character uploaded Long time ago.. Or character not exits.. orr Wrong id')
 
 
-# ==========================================================================
+# =============================================================
 UPLOAD_HANDLER = CommandHandler('upload', upload, block=False)
 application.add_handler(UPLOAD_HANDLER)
 DELETE_HANDLER = CommandHandler('delete', delete, block=False)
@@ -312,5 +312,5 @@ application.add_handler(UPDATE_HANDLER)
 # =============================================================
 EVENT_UPLOAD_HANDLER = CommandHandler('event', event, block=False)
 application.add_handler(EVENT_UPLOAD_HANDLER)
-EVENT_UPDATE_HANDLER = CommandHandler('eupdate', update, block=False)
+EVENT_UPDATE_HANDLER = CommandHandler('eupdate', eupdate, block=False)
 application.add_handler(EVENT_UPDATE_HANDLER)
