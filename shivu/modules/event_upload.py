@@ -10,7 +10,7 @@ from pymongo import MongoClient, ReturnDocument
 import random
 from shivu import application, sudo_users, event_collection as collection, db, CHARA_CHANNEL_ID
 
-rarity_map = {1: "💖 Valentine"}
+rarity_map = {1: "🌅 Summer"}
 
 async def get_next_sequence_number(sequence_name):
     sequence_collection = db.sequences
