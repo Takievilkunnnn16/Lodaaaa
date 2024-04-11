@@ -131,7 +131,7 @@ async def event_leaderboard(update: Update, context: CallbackContext) -> None:
         winter_character_count = user['winter_character_count']
         leaderboard_message += f'{i}. <a href="tg://user?id={username}"><b>{first_name}</b></a> ➾ <b>{winter_character_count}</b>\n'
     
-    photo_url = "https://telegra.ph/file/87218db81fe29b25d5d3a.jpg"
+    photo_url = "https://telegra.ph/file/5e7bac2231392e628de56.jpg"
 
     await update.message.reply_photo(photo=photo_url, caption=leaderboard_message, parse_mode='HTML')
 
