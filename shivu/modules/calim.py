@@ -63,11 +63,6 @@ async def stop_claim(_: bot, message: t.Message):
     await claim_toggle("False")
     await message.reply_text("Claiming feature disabled!")
   
-@bot.on_message(filters.command(["claim"]))
-async def claim(_: bot, message: t.Message):
-    chat_id = message.chat.id
-    if chat_id != -1002134049876:  # Change this to your group's chat ID
-        return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
 
 @bot.on_message(filters.command(["claim"]))
 async def claim(_: bot, message: t.Message):
@@ -93,6 +88,13 @@ async def claim(_: bot, message: t.Message):
             f"Anime: {character['anime']}\n"
             for character in unique_characters
         ]
+        
+@bot.on_message(filters.command(["claim"]))
+async def claim(_: bot, message: t.Message):
+    chat_id = message.chat.id
+    if chat_id != -1002134049876:  # Change this to your group's chat ID
+        return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
+        
         for img_url, caption in zip(img_urls, captions):
             await message.reply_photo(photo=img_url, caption=caption)
     except Exception as e:
