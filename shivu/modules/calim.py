@@ -1,6 +1,7 @@
 import asyncio
 from datetime import datetime
 from pyrogram import filters, Client, types as t
+from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
 from shivu import shivuu as bot
 from shivu import user_collection, collection
 
@@ -70,8 +71,6 @@ async def claim(_: bot, message: t.Message):
         return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
         
 
-
-
 @bot.on_message(filters.command(["claim"]))
 async def claim(_: bot, message: t.Message):
     # Check if the claiming feature is enabled
@@ -85,8 +84,21 @@ async def claim(_: bot, message: t.Message):
     claimed_date = await get_claim_of_user(user_id)
     if claimed_date:
         return await message.reply_text("You've already claimed today! Come back tomorrow.")
+        receiver_id = message.from_user.id
 
-    receiver_id = message.from_user.id
+    # Send subscription options
+    keyboard = [
+        [
+            InlineKeyboardButton("Join Channel", url="https://t.me/your_channel_username"),
+            InlineKeyboardButton("Join Group", url="https://")
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    # Send subscription options as a reply
+    await message.reply_text("To claim characters, please subscribe to our channel and group:", reply_markup=reply_mark up)
+
+    
     
     # Fetch unique characters for the user
     unique_characters = await get_unique_characters(receiver_id)
