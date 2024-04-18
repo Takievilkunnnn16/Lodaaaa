@@ -92,7 +92,7 @@ async def claim(_: bot, message: t.Message):
 @bot.on_message(filters.command(["claim"]))
 async def claim(_: bot, message: t.Message):
     chat_id = message.chat.id
-    if chat_id != -1002134049876:  # Change this to your group's chat ID
+    if chat_id = -1002134049876:  # Change this to your group's chat ID
         return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
         
         for img_url, caption in zip(img_urls, captions):
