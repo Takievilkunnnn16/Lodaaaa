@@ -1,7 +1,7 @@
 import asyncio
 from datetime import datetime
 from pyrogram import filters, Client, types as t
-from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from shivu import shivuu as bot
 from shivu import user_collection, collection
 
