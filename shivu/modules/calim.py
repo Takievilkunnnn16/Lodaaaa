@@ -89,8 +89,8 @@ async def claim(_: bot, message: t.Message):
     # Send subscription options
     keyboard = [
         [
-            InlineKeyboardButton("Join Channel", url="https://t.me/your_channel_username"),
-            InlineKeyboardButton("Join Group", url="https://")
+            InlineKeyboardButton("Join Channel", url="https://t.me/CATCH_YOUR_WH_UPDATES"),
+            InlineKeyboardButton("Join Group", url="https://t.me/Catch_Your_WH_Group")
         ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
