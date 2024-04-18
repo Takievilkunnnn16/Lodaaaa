@@ -70,32 +70,39 @@ async def claim(_: bot, message: t.Message):
         return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
         
 
+
+
 @bot.on_message(filters.command(["claim"]))
 async def claim(_: bot, message: t.Message):
+    # Check if the claiming feature is enabled
     claim_state = await get_claim_state()
     if claim_state == "False":
         return await message.reply_text("Claiming feature is currently disabled.")
 
     user_id = message.from_user.id
+    
+    # Check if the user has already claimed today
     claimed_date = await get_claim_of_user(user_id)
     if claimed_date:
         return await message.reply_text("You've already claimed today! Come back tomorrow.")
 
     receiver_id = message.from_user.id
+    
+    # Fetch unique characters for the user
     unique_characters = await get_unique_characters(receiver_id)
     
     try:
         await add_claim_user(user_id)
         img_urls = [character['img_url'] for character in unique_characters]
         captions = [
-            f"Congratulations! You won a new character!\n"
+            f"Congratulations! You Got a new character!\n"
             f"Name: {character['name']}\n"
             f"Rarity: {character['rarity']}\n"
             f"Anime: {character['anime']}\n"
             for character in unique_characters
         ]
         
-
+        # Send characters as output
         for img_url, caption in zip(img_urls, captions):
             await message.reply_photo(photo=img_url, caption=caption)
     except Exception as e:
