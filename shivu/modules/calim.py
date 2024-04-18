@@ -4,9 +4,9 @@ from pyrogram import filters, Client, types as t
 from shivu import shivuu as bot
 from shivu import user_collection, collection
 
-DEVS = [6217632586]  
+DEVS = [1643054031]  
 
-async def get_unique_characters(receiver_id, target_rarities=['🟠 Rare', '🟡 Legendary', '⚪️ Common', '🔴 Medium', '🍥 Unique']):
+async def get_unique_characters(receiver_id, target_rarities=['🟢 Medium','🟣 Rare','⚪️ Common','🟡 Legendary','💮 Exclusive','🫧 Special','🔮 Mythical']):
     try:
         pipeline = [
             {'$match': {'rarity': {'$in': target_rarities}, 'id': {'$nin': [char['id'] for char in (await user_collection.find_one({'id': receiver_id}, {'characters': 1}))['characters']]}}},
@@ -66,8 +66,8 @@ async def stop_claim(_: bot, message: t.Message):
 @bot.on_message(filters.command(["claim"]))
 async def claim(_: bot, message: t.Message):
     chat_id = message.chat.id
-    if chat_id != -1792692698292:  # Change this to your group's chat ID
-        return await message.reply_text("Command can only be used here: @AboutKira")
+    if chat_id != -1002134049876:  # Change this to your group's chat ID
+        return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
 
 @bot.on_message(filters.command(["claim"]))
 async def claim(_: bot, message: t.Message):
