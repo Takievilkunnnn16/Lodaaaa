@@ -96,7 +96,7 @@ async def claim(_: bot, message: t.Message):
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     # Send subscription options as a reply
-    await message.reply_text("To claim characters, please subscribe to our channel and group:", reply_markup=reply_mark up)
+    await message.reply_text("To claim characters, please Join to our channel and group:", reply_markup=reply_mark up)
 
     
     
