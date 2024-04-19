@@ -63,48 +63,51 @@ async def start_claim(_: bot, message: t.Message):
 async def stop_claim(_: bot, message: t.Message):
     await claim_toggle("False")
     await message.reply_text("Claiming feature disabled!")
-    
+
 @bot.on_message(filters.command(["claim"]))
 async def claim(_: bot, message: t.Message):
-    # Check if the claiming feature is enabled
     claim_state = await get_claim_state()
     if claim_state == "False":
         return await message.reply_text("Claiming feature is currently disabled.")
 
-    user_id = message.from_user.id
-    
-    # Check if the user has already claimed today
-    claimed_date = await get_claim_of_user(user_id)
-    if claimed_date:
-        return await message.reply_text("You've already claimed today! Come back tomorrow.")
-    
-    # Fetch unique characters for the user
-    unique_characters = await get_unique_characters(user_id)
-    
-    if not unique_characters:
+    # Fetch a unique character for the user
+    character = await get_unique_characters()
+    if not character:
         return await message.reply_text("No unique characters available at the moment.")
-    
-    try:
-        await add_claim_user(user_id)
-        
-        # Send inline buttons for joining channel and group
-        keyboard = [
-            [
-                InlineKeyboardButton("Join Channel", url="https://t.me/CATCH_YOUR_WH_UPDATES"),
-                InlineKeyboardButton("Join Group", url="https://t.me/Catch_Your_WH_Group")
-            ]
+
+    # Send the character to the user
+    keyboard = [
+        [
+            InlineKeyboardButton("Join Channel", url="https://t.me/CATCH_YOUR_WH_UPDATES"),
+            InlineKeyboardButton("Join Group", url="https://t.me/Catch_Your_WH_Group")
         ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await message.reply_text("To claim characters, please join our channel and group:", reply_markup=reply_markup)
-        
-        img_urls = [character['img_url'] for character in unique_characters]
-        captions = [
-            f"Congratulations! You got a new character!\n"
-            f"Name: {character['name']}\n"
-            f"Rarity: {character['rarity']}\n"
-            f"Anime: {character['anime']}\n"
-            for character in unique_characters
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    caption = f"Congratulations! You got a new character!\nName: {character['name']}\nRarity: {character['rarity']}\nAnime: {character['anime']}"
+    await message.reply_photo(photo=character['img_url'], caption=caption, reply_markup=reply_markup)
+
+@bot.on_message(filters.command(["claim"]))
+async def claim(_: bot, message: t.Message):
+    claim_state = await get_claim_state()
+    if claim_state == "False":
+        return await message.reply_text("Claiming feature is currently disabled.")
+
+    # Fetch a unique character for the user
+    character = await get_unique_characters()
+    if not character:
+        return await message.reply_text("No unique characters available at the moment.")
+
+    # Send the character to the user
+    keyboard = [
+        [
+            InlineKeyboardButton("Join Channel", url="https://t.me/CATCH_YOUR_WH_UPDATES"),
+            InlineKeyboardButton("Join Group", url="https://t.me/Catch_Your_WH_Group")
         ]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    caption = f"Congratulations! You got a new character!\nName: {character['name']}\nRarity: {character['rarity']}\nAnime: {character['anime']}"
+    await message.reply_photo(photo=character['img_url'], caption=caption, reply_markup=reply_markup)
+
         
         # Send characters as output
         for img_url, caption in zip(img_urls, captions):
