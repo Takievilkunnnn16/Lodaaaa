@@ -70,6 +70,22 @@ async def claim(_: bot, message: t.Message):
     if claim_state == "False":
         return await message.reply_text("Claiming feature is currently disabled.")
 
+
+    # Check if the user has already claimed today
+    claimed_date = await get_claim_of_user(user_id)
+    if claimed_date:
+        return await message.reply_text("You've already claimed today! Come back tomorrow.")
+        receiver_id = message.from_user.id
+
+
+@bot.on_message(filters.command(["claim"]))
+async def claim(_: bot, message: t.Message):
+    chat_id = message.chat.id
+    if chat_id != -1002134049876:  # Change this to your group's chat ID
+        return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
+        
+        
+
     # Fetch a unique character for the user
     character = await get_unique_characters()
     if not character:
