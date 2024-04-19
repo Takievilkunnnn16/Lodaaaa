@@ -68,5 +68,5 @@ async def who_collected_callback(_, callback_query):
             await callback_query.message.edit_text("No one has collected this character in this group.")
     except Exception as e:
         print(f"Error in who_collected_callback: {e}")
-        await callback_query.message.reply_text(f"An error occurred while processing the req
-uest: {e}")
+        
+         await callback_query.message.reply_text(f"An error occurred while processing the request {e}")
