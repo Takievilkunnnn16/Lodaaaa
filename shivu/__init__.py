@@ -27,7 +27,7 @@ API_HASH = os.getenv("API_HASH")
 API_ID = os.getenv("API_ID")
 UPDATE_CHAT = os.getenv("UPDATE_CHAT")
 BOT_USERNAME = os.getenv("BOT_USERNAME")
-Sqldb_url = os.getenv("Sqldb_url")
+
 
 application = Application.builder().token(TOKEN).build()
 shivuu = Client(
