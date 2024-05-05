@@ -13,14 +13,7 @@
       ],   
    "repository": "https://github.com/SleepyShuyaaa/character_catcher-",
    "stack": "heroku-22",
-   "addons": [
-      {
-         "options": {
-            "version": "12"
-         },
-         "plan": "heroku"
-      }
-   ],
+
    "env": {
       "TOKEN": {
          "description": "Your bot token. Get one from @BotFather",
