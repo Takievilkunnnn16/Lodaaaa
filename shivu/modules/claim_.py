@@ -93,7 +93,7 @@ async def claim(_, message: t.Message):
         last_claim_date = last_claim_time[user_id]
         if last_claim_date.date() == now.date():
             next_claim_time = (last_claim_date + timedelta(days=1)).strftime("%H:%M:%S")
-            return await message.reply_text(f"your already claimed come back tomorrow "quote=True)
+            return await message.reply_text(f"your already claimed come back tomorrow", quote=True)
 
     # Update the last claim time for the user
     last_claim_time[user_id] = now
