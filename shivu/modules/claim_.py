@@ -124,10 +124,10 @@ async def claim(_, message: t.Message):
         await user_collection.update_one({'id': receiver_id}, {'$push': {'characters': {'$each': unique_characters}}})
         img_urls = [character['img_url'] for character in unique_characters]
         captions = [
-            f"𝑪𝒐𝒏𝒈𝒓𝒂𝒕𝒖𝒍𝒂𝒕𝒊𝒐𝒏𝒔 🎊 {mention}! 𝒀𝒐𝒖 𝒈𝒐𝒕 𝒀𝒐𝒖𝒓 𝒏𝒆𝒘 𝒅𝒂𝒊𝒍𝒚 𝒘𝒂𝒊𝒇𝒖 ✨\n"
+            f"𝑪𝒐𝒏𝒈𝒓𝒂𝒕𝒖𝒍𝒂𝒕𝒊𝒐𝒏𝒔 🎊 {mention}!Your today's reward is:\n"
             f"🎀 𝑵𝑨𝑴𝑬: {character['name']}\n"
-            f"⚕️ 𝑹𝑨𝑹𝑰𝑻𝒚: {character['rarity']}\n"
-            f"⚜️ 𝑨𝑵𝑰𝑴𝑬: {character['anime']}\n"
+            f"💓 𝑨𝑵𝑰𝑴𝑬: {character['anime']}\n"
+            
             f"𝑪𝒐𝒎𝒆 𝒂𝒈𝒂𝒊𝒏 𝑻𝒐𝒎𝒐𝒓𝒓𝒐𝒘 𝒇𝒐𝒓 𝒚𝒐𝒖𝒓 𝒏𝒆𝒙𝒕 𝒄𝒍𝒂𝒊𝒎 🍀\n"
             for character in unique_characters
         ]
@@ -136,16 +136,16 @@ async def claim(_, message: t.Message):
     except Exception as e:
         print(e)
 
-@bot.on_message(filters.command(["hfind"]))
-async def hfind(_, message: t.Message):
+@bot.on_message(filters.command(["find"]))
+async def find(_, message: t.Message):
     if len(message.command) < 2:
-        return await message.reply_text("🔖𝑷𝒍𝒆𝒂𝒔𝒆 𝒑𝒓𝒐𝒗𝒊𝒅𝒆 𝒕𝒉𝒆 𝒘𝒂𝒊𝒇𝒖 𝑰𝑫 ☘️", quote=True)
+        return await message.reply_text("𝑷𝒍𝒆𝒂𝒔𝒆 𝒑𝒓𝒐𝒗𝒊𝒅𝒆 𝒕𝒉𝒆 𝒘𝒂𝒊𝒇𝒖 𝑰𝑫 ☘️", quote=True)
 
     waifu_id = message.command[1]
     waifu = await collection.find_one({'id': waifu_id})
 
     if not waifu:
-        return await message.reply_text("🎗️ 𝑵𝒐 𝒘𝒂𝒊𝒇𝒖 𝒇𝒐𝒖𝒏𝒅 𝒘𝒊𝒕𝒉 𝒕𝒉𝒂𝒕 𝑰𝑫 ❌", quote=True)
+        return await message.reply_text(" 𝑵𝒐 𝒘𝒂𝒊𝒇𝒖 𝒇𝒐𝒖𝒏𝒅 𝒘𝒊𝒕𝒉 𝒕𝒉𝒂𝒕 𝑰𝑫 ❌", quote=True)
 
     # Get the top 10 users with the most of this waifu in the current chat
     top_users = await user_collection.aggregate([
