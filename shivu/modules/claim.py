@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 DEVS =  (1643054031) # Developer user IDs
 SUPPORT_CHAT_ID = -1002134049876  # Change this to your group's chat ID
-CHANNEL_ID = -1001619541518  # Change this to your channel's ID
+CHANNEL_ID = -1001746346532  # Change this to your channel's ID
 GROUP_ID = -1002134049876  # Change this to your group's ID
 
 # Functions from the second code
