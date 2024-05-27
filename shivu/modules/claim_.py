@@ -78,7 +78,7 @@ async def claim(_, message: t.Message):
     mention = message.from_user.mention
     user_id = message.from_user.id
 
-    # Check if the user is banned
+    # Check if the user is bannedd
     if user_id == 7162166061:
         return await message.reply_text(f"Sorry {mention}, you are banned from using this command.")
 
