@@ -4,9 +4,26 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from shivu import shivuu as bot
 from shivu import user_collection, collection
 from datetime import datetime, timedelta
+from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
+
 
 DEVS =  (1643054031) # Devloper user IDs
 SUPPORT_CHAT_ID = -1002134049876  # Change this to your group's chat ID
+
+keyboard = InlineKeyboardMarkup([
+    [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/The_Catch_Squad")],
+    [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/Catch_Emupdate")]
+])
+
+async def force_sub(chat_id, user_id):
+        try:
+            member = await bot.get_chat_member(-1001931513350, user_id)
+            members = await bot.get_chat_member(-1001867974836, user_id)
+            if member and members:
+                pass
+        except UserNotParticipant:
+            await message.reply_text("**You need to join the chat to use this feature.**", reply_markup=keyboard)
+            return 
 
 # Functions from the second code
 async def claim_toggle(claim_state):
@@ -72,11 +89,14 @@ async def stop_claim(_, message: t.Message):
 @bot.on_message(filters.command(["claim"]))
 async def claim(_, message: t.Message):
     chat_id = message.chat.id
+    user_id = message.from_user.id
+    await force_sub(SUPPORT_CHAT_ID, user_id)
+    
     if chat_id != SUPPORT_CHAT_ID:
         return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
 
     mention = message.from_user.mention
-    user_id = message.from_user.id
+    
 
     # Check if the user is bannedd
     if user_id == 7162166061:
