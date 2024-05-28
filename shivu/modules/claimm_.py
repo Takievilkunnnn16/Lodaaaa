@@ -125,11 +125,11 @@ async def claim(_, message: t.Message):
         await user_collection.update_one({'id': receiver_id}, {'$push': {'characters': {'$each': unique_characters}}})
         img_urls = [character['img_url'] for character in unique_characters]
         captions = [
-            f"Congratulations  {mention}!\n",
+            f"Congratulations  {mention}!\n"
             
             f"Your Prize is:\n",
             f"✨ Name: {character['name']}\n"
-            f"💓 Anime: {character['anime']}\n",
+            f"💓 Anime: {character['anime']}\n"
             
             f"Come back tomorrow 🍀\n"
             for character in unique_characters
