@@ -4,11 +4,27 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from shivu import shivuu as bot
 from shivu import user_collection, collection
 from datetime import datetime, timedelta
+from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant, ChannelInvalid
 
-DEVS =  (1643054031) # Developer user IDs
+
+DEVS = (1643054031,)  # Developer user IDs
 SUPPORT_CHAT_ID = -1002134049876  # Change this to your group's chat ID
-CHANNEL_ID = -1001746346532  # Change this to your channel's ID
-GROUP_ID = -1002134049876  # Change this to your group's ID
+
+keyboard = InlineKeyboardMarkup([
+    [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/Catch_Your_WH_Group")],
+    [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/CATCH_YOUR_WH_UPDATES")]
+])
+
+async def force_sub(chat_id, user_id):
+    try:
+        member = await bot.get_chat_member(-1002134049876, user_id)
+        members = await bot.get_chat_member(-1001746346532, user_id)
+        if member and members:
+            pass
+    except (UserNotParticipant, ChannelInvalid):
+        await bot.send_message(chat_id, "**You need to join the chat to use this feature.**", reply_markup=keyboard)
+        return False
+    return True
 
 # Functions from the second code
 async def claim_toggle(claim_state):
@@ -47,8 +63,10 @@ async def get_claim_of_user(user_id):
 
 async def get_unique_characters(receiver_id, target_rarities=['(⚪️ Common', '🟣 Rare', '🟡 Legendary', '🟢 Medium']):
     try:
+        user_characters = await user_collection.find_one({'id': receiver_id}, {'characters': 1})
+        user_character_ids = [char['id'] for char in user_characters.get('characters', [])]
         pipeline = [
-            {'$match': {'rarity': {'$in': target_rarities}, 'id': {'$nin': [char['id'] for char in (await user_collection.find_one({'id': receiver_id}, {'characters': 1}))['characters']]}}},
+            {'$match': {'rarity': {'$in': target_rarities}, 'id': {'$nin': user_character_ids}}},
             {'$sample': {'size': 1}}  # Adjust Num
         ]
 
@@ -56,19 +74,11 @@ async def get_unique_characters(receiver_id, target_rarities=['(⚪️ Common', 
         characters = await cursor.to_list(length=None)
         return characters
     except Exception as e:
+        print(f"Error in get_unique_characters: {e}")
         return []
 
 # Dictionary to store last claim time for each user
 last_claim_time = {}
-
-async def check_subscription(user_id):
-    try:
-        user_channel_status = await bot.get_chat_member(CHANNEL_ID, user_id)
-        user_group_status = await bot.get_chat_member(GROUP_ID, user_id)
-        return user_channel_status.status in ["member", "administrator", "creator"] and user_group_status.status in ["member", "administrator", "creator"]
-    except Exception as e:
-        print(f"Error in check_subscription: {e}")
-        return False
 
 @bot.on_message(filters.command(["startclaim"]) & filters.user(DEVS))
 async def start_claim(_, message: t.Message):
@@ -83,11 +93,14 @@ async def stop_claim(_, message: t.Message):
 @bot.on_message(filters.command(["claim"]))
 async def claim(_, message: t.Message):
     chat_id = message.chat.id
+    user_id = message.from_user.id
+    if not await force_sub(chat_id, user_id):
+        return
+
     if chat_id != SUPPORT_CHAT_ID:
         return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
 
     mention = message.from_user.mention
-    user_id = message.from_user.id
 
     # Check if the user is banned
     if user_id == 7162166061:
@@ -98,22 +111,13 @@ async def claim(_, message: t.Message):
     if claim_state == "False":
         return await message.reply_text("Claiming feature is currently disabled.")
 
-    # Check if the user has joined the required channel and group
-    is_subscribed = await check_subscription(user_id)
-    if not is_subscribed:
-        keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("Join Channel", url="https://t.me/CATCH_YOUR_WH_UPDATES")],
-            [InlineKeyboardButton("Join Group", url="https://t.me/Catch_Your_WH_Group")]
-        ])
-        return await message.reply_text("You need to join the channel and group before claiming a character.", reply_markup=keyboard)
-
     # Check if the user has already claimed a waifu today
     now = datetime.now()
     if user_id in last_claim_time:
         last_claim_date = last_claim_time[user_id]
         if last_claim_date.date() == now.date():
             next_claim_time = (last_claim_date + timedelta(days=1)).strftime("%H:%M:%S")
-            return await message.reply_text(f"You've already claimed your daily reward today. Come back at {next_claim_time}.", quote=True)
+            return await message.reply_text(f"You've already claimed your daily reward today.", quote=True)
 
     # Update the last claim time for the user
     last_claim_time[user_id] = now
@@ -125,11 +129,10 @@ async def claim(_, message: t.Message):
         await user_collection.update_one({'id': receiver_id}, {'$push': {'characters': {'$each': unique_characters}}})
         img_urls = [character['img_url'] for character in unique_characters]
         captions = [
-            f"Congratulations {mention}!\n"
-          
+            f"Congratulations {mention}!\n,"
+            f"Your Prize is:\n,"
             f"✨ Name: {character['name']}\n"
-            f"💓 Anime: {character['anime']}\n"
-          
+            f"💓 Anime: {character['anime']}\n,"
             f"Come back tomorrow 🍀\n"
             for character in unique_characters
         ]
@@ -147,7 +150,7 @@ async def hfind(_, message: t.Message):
     waifu = await collection.find_one({'id': waifu_id})
 
     if not waifu:
-        return await message.reply_text(" No husbando found with that ID ❌", quote=True)
+        return await message.reply_text("No husbando found with that ID ❌", quote=True)
 
     # Get the top 10 users with the most of this waifu in the current chat
     top_users = await user_collection.aggregate([
@@ -172,12 +175,12 @@ async def hfind(_, message: t.Message):
 
     # Construct the caption
     caption = (
-        f" Waifu Information:\n"
-        f" Name: {waifu['name']}\n"
-        f" Rarity: {waifu['rarity']}\n"
-        f" Anime: {waifu['anime']}\n"
-        f" ID: {waifu['id']}\n\n"
-        f" Here is the list of users who have this character :\n\n"
+        f"Waifu Information:\n"
+        f"Name: {waifu['name']}\n"
+        f"Rarity: {waifu['rarity']}\n"
+        f"Anime: {waifu['anime']}\n"
+        f"ID: {waifu['id']}\n\n"
+        f"Here is the list of users who have this character:\n\n"
     )
     for i, user_info in enumerate(top_users):
         count = user_info['count']
@@ -199,9 +202,9 @@ async def cfind(_, message: t.Message):
         return await message.reply_text(f"No character found from anime ❎ {anime_name}.", quote=True)
 
     captions = [
-        f" Name : {char['name']}\n ID: {char['id']}\n Rarity: {char['rarity']}\n"
+        f"Name: {char['name']}\nID: {char['id']}\nRarity: {char['rarity']}\n"
         for char in characters
     ]
     response = "\n".join(captions)
-    await message.reply_text(f"🍁 Character from {anime_name}:\n\n{response}", quote=True)
+    await message.reply_text(f"🍁 Characters from {anime_name}:\n\n{response}", quote=True)
 
