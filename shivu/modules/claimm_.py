@@ -15,7 +15,7 @@ keyboard = InlineKeyboardMarkup([
     [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/CATCH_YOUR_WH_UPDATES")]
 ])
 
-async def force_sub(chat_id, user_id):
+async def force_sub(chat_id, user_id, message):
         try:
             member = await bot.get_chat_member(-1002134049876, user_id)
             members = await bot.get_chat_member(-1001746346532, user_id)
@@ -90,7 +90,7 @@ async def stop_claim(_, message: t.Message):
 async def claim(_, message: t.Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
-    await force_sub(SUPPORT_CHAT_ID, user_id)
+    await force_sub(SUPPORT_CHAT_ID, user_id, message)
     
     if chat_id != SUPPORT_CHAT_ID:
         return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
