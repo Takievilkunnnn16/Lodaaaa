@@ -11,14 +11,14 @@ DEVS =  (1643054031) # Devloper user IDs
 SUPPORT_CHAT_ID = -1002134049876  # Change this to your group's chat ID
 
 keyboard = InlineKeyboardMarkup([
-    [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/The_Catch_Squad")],
-    [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/Catch_Emupdate")]
+    [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/Catch_Your_WH_Group")],
+    [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/CATCH_YOUR_WH_UPDATES")]
 ])
 
 async def force_sub(chat_id, user_id):
         try:
-            member = await bot.get_chat_member(-1001931513350, user_id)
-            members = await bot.get_chat_member(-1001867974836, user_id)
+            member = await bot.get_chat_member(-1002134049876, user_id)
+            members = await bot.get_chat_member(-1001746346532, user_id)
             if member and members:
                 pass
         except UserNotParticipant:
