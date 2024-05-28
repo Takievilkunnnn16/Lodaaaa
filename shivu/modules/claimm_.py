@@ -15,8 +15,6 @@ keyboard = InlineKeyboardMarkup([
     [InlineKeyboardButton("Join Chat To Use Me", url="https://t.me/CATCH_YOUR_WH_UPDATES")]
 ])
 
-async def force_sub(chat_id, user_id, message):
-
 
 # Functions from the second code
 async def claim_toggle(claim_state):
