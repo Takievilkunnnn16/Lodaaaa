@@ -163,7 +163,7 @@ async def hfind(_, message: t.Message):
     # Get the usernames of the top users
     usernames = []
     for user_info in top_users:
-        user_id = user_info['user_id']
+        user_id = user_info['_id']
         try:
             user = await bot.get_users(user_id)
             usernames.append(f"<a href='tg://user?id={user_id}'>{user.username or user_id}</a>")
