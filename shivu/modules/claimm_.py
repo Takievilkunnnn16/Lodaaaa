@@ -127,6 +127,7 @@ async def claim(_, message: t.Message):
         captions = [
             f"Congratulations  {mention}!\n",
             
+            f"Your Prize is:\n",
             f"✨ Name: {character['name']}\n"
             f"💓 Anime: {character['anime']}\n",
             
