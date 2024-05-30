@@ -51,7 +51,7 @@ async def get_claim_of_user(user_id):
         print(f"Error in get_claim_of_user: {e}")
         return False
 
-async def get_unique_characters(receiver_id, target_rarities=['(⚪️ Common', '🟣 Rare', '🟡 Legendary', '🟢 Medium']):
+async def get_unique_characters(receiver_id, target_rarities=['(⚪️ Common', '🟣 Rare', '🟡 Legendary', '🟢 Medium', '💮 Exclusive']):
     try:
         pipeline = [
             {'$match': {'rarity': {'$in': target_rarities}, 'id': {'$nin': [char['id'] for char in (await user_collection.find_one({'id': receiver_id}, {'characters': 1}))['characters']]}}},
