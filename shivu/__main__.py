@@ -228,6 +228,12 @@ async def guess(update: Update, context: CallbackContext) -> None:
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
 
+    if user_id in warned_users:
+        remaining_time = int(600 - (time.time() - warned_users[user_id]))
+        if remaining_time >= 1 and remaining_time <= 600:
+            await update.message.reply_text(f"You are temporarily banned from using the bot for {remaining_time} seconds.")
+            return 
+
    
 
     if chat_id not in last_characters:
