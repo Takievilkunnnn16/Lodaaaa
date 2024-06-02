@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from shivu import shivuu as bot
 from shivu import user_collection, collection
 from datetime import datetime, timedelta
-from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
+
 
 
 DEVS =  (1643054031) # Devloper user IDs
@@ -19,7 +19,7 @@ keyboard = InlineKeyboardMarkup([
 # Functions from the second code
 async def claim_toggle(claim_state):
     try:
-        await collection.update_one({}, {"$set": {"claim": claim_state}}, upsert=True)
+        await collection.update_one({}, {"set": {"claim": claim_state}}, upsert=True)
     except Exception as e:
         print(f"Error in claim_toggle: {e}")
 
@@ -33,13 +33,13 @@ async def get_claim_state():
 
 async def add_claim_user(user_id):
     try:
-        await user_collection.update_one({"id": user_id}, {"$set": {"claim": True}}, upsert=True)
+        await user_collection.update_one({"id": user_id}, {"set": {"claim": True}}, upsert=True)
     except Exception as e:
         print(f"Error in add_claim_user: {e}")
 
 async def del_all_claim_user():
     try:
-        await user_collection.update_many({}, {"$unset": {"claim": ""}})
+        await user_collection.update_many({}, {"$set": {"claim": ""}})
     except Exception as e:
         print(f"Error in del_all_claim_user: {e}")
 
@@ -54,8 +54,8 @@ async def get_claim_of_user(user_id):
 async def get_unique_characters(receiver_id, target_rarities=['(⚪️ Common', '🟣 Rare', '🟡 Legendary', '🟢 Medium', '💮 Exclusive']):
     try:
         pipeline = [
-            {'$match': {'rarity': {'$in': target_rarities}, 'id': {'$nin': [char['id'] for char in (await user_collection.find_one({'id': receiver_id}, {'characters': 1}))['characters']]}}},
-            {'$sample': {'size': 1}}  # Adjust Num
+            {'$match': {'rarity': {'$out': target_rarities}, 'id': {'$nin': [char['id'] for char in (await user_collection.find_one({'id': receiver_id}, {'characters': 1}))['characters']]}}},
+            {'$set': {'size': 1}}  # Adjust Num
         ]
 
         cursor = collection.aggregate(pipeline)
@@ -82,13 +82,13 @@ async def claim(_, message: t.Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
     try:
-        member = await bot.get_chat_member(-1002134049876, user_id)
-        members = await bot.get_chat_member(-1001746346532, user_id)
+        member = await bot.get_chat(-1002134049876, user_id)
+        members = await bot.get_chat(-1001746346532, user_id)
         if member and members:
             pass
     except UserNotParticipant:
         await message.reply_text("**You need to join the chat to use this feature.**", reply_markup=keyboard)
-        return 
+   
     if chat_id != SUPPORT_CHAT_ID:
         return await message.reply_text("Command can only be used here: @Catch_Your_WH_Group")
 
