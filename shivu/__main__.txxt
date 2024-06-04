@@ -202,9 +202,9 @@ async def send_image(update: Update, context: CallbackContext) -> None:
     
     if len(sent_characters[chat_id]) % 10 == 0:  # After every 10 characters, send an event character
         if chat_id not in event_characters:
-            event_characters[chat_id] = list(await event_collection.find({'rarity':'🌤 Summer'}).to_list(length=None))
+            event_characters[chat_id] = list(await event_collection.find({'rarity':'💝 valentine'}).to_list(length=None))
         if len(event_characters[chat_id]) == 0:  # If all event characters have been sent, reset the list
-            event_characters[chat_id] = list(await event_collection.find({'rarity':'🌤 Summer'}).to_list(length=None))
+            event_characters[chat_id] = list(await event_collection.find({'rarity':'💝 valentine'}).to_list(length=None))
         character = event_characters[chat_id].pop(random.randrange(len(event_characters[chat_id])))
     else:
         # ===================== To disable some drop ==============
