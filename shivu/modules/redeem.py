@@ -1,9 +1,12 @@
-from telegram.ext import CommandHandler, Application, ContextTypes
-from telegram import Update, ParseMode
+from telegram.ext import CommandHandler
+from telegram.constants import ParseMode
 import random
 import string
 import datetime
-from shivu import user_collection, collection
+from Grabber import application, user_collection, collection
+
+# Dictionary to store user last usage time for daily_code command
+last_usage_time = {}
 
 # Dictionary to store generated waifus and their details
 generated_waifus = {}
@@ -19,7 +22,7 @@ def generate_random_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
 
 # Function to handle the waifugen command
-async def waifugen(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def waifugen(update, context):
     if str(update.effective_user.id) not in sudo_user_ids:
         await update.message.reply_text("You are not authorized to generate waifus.")
         return
@@ -28,7 +31,7 @@ async def waifugen(update: Update, context: ContextTypes.DEFAULT_TYPE):
         waifu_id = context.args[0]  # Get the waifu ID from the command
         quantity = int(context.args[1])  # Get the quantity from the command
     except (IndexError, ValueError):
-        await update.message.reply_text("Invalid usage. Usage: /gen <waifu_id> <quantity>")
+        await update.message.reply_text("Invalid usage. Usage: /pgen <waifu_id> <quantity>")
         return
 
     # Find the waifu by ID
@@ -58,7 +61,7 @@ async def waifugen(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(chat_id=log_user_id, text=log_text)
 
 # Function to claim a generated waifu
-async def claimwaifu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def claimwaifu(update, context):
     code = " ".join(context.args)  # Get the code from the command
     user_id = update.effective_user.id
     user_mention = f"[{update.effective_user.first_name}](tg://user?id={user_id})"
@@ -83,9 +86,8 @@ async def claimwaifu(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 del generated_waifus[code]
             
             response_text = (
-                  f"**Congratulations**  {mention}!\n\n**Your Prize is:**\n**❄️ Name:** {character['name']}\n**🍂 Anime:** {character['anime']}\n\n**"""
-            
-            )
+                  f"**Congratulations**  {mention}!\n\n**Your redeem Prize is:**\n**❄️ Name:** {character['name']}\n**🍂 Anime:** {character['anime']}\n\n**"""
+           )
             await update.message.reply_photo(photo=waifu['img_url'], caption=response_text, parse_mode=ParseMode.MARKDOWN)
             
             # Log the waifu claim
@@ -96,13 +98,10 @@ async def claimwaifu(update: Update, context: ContextTypes.DEFAULT_TYPE):
             for log_user_id in log_sudo_user_ids:
                 await context.bot.send_message(chat_id=log_user_id, text=log_text)
         else:
-            await update.message.reply_text("This code is already redeem by someone.")
+            await update.message.reply_text("This code is already been claimed the maximum number of times.")
     else:
         await update.message.reply_text("Invalid code.")
 
 # Add command handlers to the bot
 application.add_handler(CommandHandler("gen", waifugen))
 application.add_handler(CommandHandler("redeem", claimwaifu))
-
-# Assuming application is properly initialized and run
- 
