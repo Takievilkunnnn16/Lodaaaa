@@ -3,7 +3,7 @@ from telegram import Update, ParseMode
 import random
 import string
 import datetime
-from Grabber import user_collection, collection
+from shivu import user_collection, collection
 
 # Dictionary to store generated waifus and their details
 generated_waifus = {}
@@ -83,10 +83,8 @@ async def claimwaifu(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 del generated_waifus[code]
             
             response_text = (
-                f"Congratulations {user_mention}! You have received a new waifu for your harem 💍!\n"
-                f"Name: {waifu['name']}\n"
-                f"Rarity: {waifu['rarity']}\n"
-                f"Anime: {waifu['anime']}\n"
+                  f"**Congratulations**  {mention}!\n\n**Your Prize is:**\n**❄️ Name:** {character['name']}\n**🍂 Anime:** {character['anime']}\n\n**"""
+            
             )
             await update.message.reply_photo(photo=waifu['img_url'], caption=response_text, parse_mode=ParseMode.MARKDOWN)
             
