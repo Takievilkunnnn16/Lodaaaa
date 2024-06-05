@@ -12,10 +12,10 @@ last_usage_time = {}
 generated_waifus = {}
 
 # Sudo user IDs
-sudo_user_ids = [1643054031]
+sudo_user_ids = ["1643054031", "6384296585"]
 
 # Sudo user ID to send logs
-log_sudo_user_ids = [1643054031]
+log_sudo_user_ids = ["1643054031", "6384296585"]
 
 # Function to generate a random string of length 5 composed of random letters
 def generate_random_code():
