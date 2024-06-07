@@ -32,8 +32,10 @@ message_counters = {}
 spam_counters = {}
 last_characters = {}
 sent_characters = {}
+event_characters={}
 first_correct_guesses = {}
 message_counts = {}
+sent_count = {}
 archived_characters = {}
 ran_away_count = {}
 
@@ -200,6 +202,26 @@ async def send_image(update: Update, context: CallbackContext) -> None:
 
     
     character = random.choice([c for c in all_characters if c['id'] not in sent_characters[chat_id]])
+    normal_rarities = ["⚪️ Common","🟣 Rare", "🟡 Legendary", "🟢 Medium"]
+    exc_rarity =  [ "💮 Exclusive", "🔮 Mythical", "🫧 Special"]
+
+    if chat_id not in sent_count:
+        sent_count[chat_id] = 0
+
+    # Determine which type of character to send
+    if sent_count[chat_id] < 30:
+        # Send character from normal rarities
+        eligible_characters = [c for c in all_characters if c['id'] not in sent_characters[chat_id] and c['rarity'] in normal_rarities]
+    else:
+        # Send character from exclusive rarities
+        eligible_characters = [c for c in all_characters if c['id'] not in sent_characters[chat_id] and c['rarity'] in exc_rarity]
+        sent_count[chat_id] = -1  # Reset count after sending an exclusive character
+
+    if eligible_characters:
+        character = random.choice(eligible_characters)
+        sent_characters[chat_id].append(character['id'])
+        sent_count[chat_id] += 1
+
 
     
     sent_characters[chat_id].append(character['id'])
