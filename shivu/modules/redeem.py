@@ -86,15 +86,12 @@ async def claimwaifu(update, context):
                 del generated_waifus[code]
  
             response_text = (
-                f"𝖢𝗈𝗇𝗀𝗋𝖺𝗍𝗎𝗅𝖺𝗍𝗂𝗈𝗇𝗌 🎊 {user_mention}!\n\n"
-                f"🎁 Your reward is:\n"
-                f"🍁 𝖭𝖺𝗆𝖾: {waifu['name']}\n"
-                f"⚜️ 𝖠𝗇𝗂𝗆𝖾 : {waifu['anime']}\n"
+                f""**Congratulations**  {mention}!\n\n**Your Prize is:**\n**✨ Name:** {character['name']}\n""""
             )
             await update.message.reply_photo(photo=waifu['img_url'], caption=response_text, parse_mode=ParseMode.MARKDOWN)
  
             # Log the waifu claim
-            log_text = (
+            log_text = 
                 f"Waifu claimed by user {user_id}:\n"
                 f"Code: {code}\nName: {waifu['name']}\nRarity: {waifu['rarity']}\nRemaining quantity: {details['quantity']}"
             )
