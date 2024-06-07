@@ -212,7 +212,7 @@ async def send_image(update: Update, context: CallbackContext) -> None:
         sent_count[chat_id] = 0
 
     # Determine which type of character to send
-    if sent_count[chat_id] < 30:
+    if sent_count[chat_id] < frequency:
         # Send character from normal rarities
         eligible_characters = [c for c in all_characters if c['id'] not in sent_characters[chat_id] and c['rarity'] in normal_rarities]
     else:
