@@ -74,15 +74,17 @@ async def inlinequery(update: Update, context: CallbackContext) -> None:
         if query.startswith('collection.'):
             user_character_count = sum(c['id'] == character['id'] for c in user.get('characters', []))
             user_anime_characters = sum(c['anime'] == character['anime'] for c in user.get('characters', []))
-            caption =f"""<b> OwO! Check out <a href='tg://user?id={user['id']}'>{(escape(user.get('first_name', user['id'])))}</a>'s waifu</b>
+
+            caption = f"""<b> OwO! Check out <a href='tg://user?id={user['id']}'>{(escape(user.get('first_name', user['id'])))}</a>'s Husbando</b>
 
 <b>{character['anime']} ({user_anime_characters}/{anime_characters})</b>
 <b>{character['id']}:</b>{character['name']} (x{user_character_count})
 
 <b>({character['rarity'][0]} 𝙍𝘼𝙍𝙄𝙏𝙔:{character['rarity'][2:]})</b>
 """
-    else:
-            caption =f"""<b> OwO! Check out Character !!</b>
+
+        else:
+            caption = f"""<b> OwO! Check out Character !!</b>
             
 <b>{character['anime']}</b>
 <b>{character['id']}:</b>{character['name']}
@@ -91,7 +93,7 @@ async def inlinequery(update: Update, context: CallbackContext) -> None:
             
 <b>Globally catches {global_count} Times...</b>
 """
-    results.append(
+        results.append(
             InlineQueryResultPhoto(
                 thumbnail_url=character['img_url'],
                 id=f"{character['id']}_{time.time()}",
@@ -99,7 +101,7 @@ async def inlinequery(update: Update, context: CallbackContext) -> None:
                 caption=caption,
                 parse_mode='HTML'
             )
-         )
+        )
 
     await update.inline_query.answer(results, next_offset=next_offset, cache_time=5)
 
