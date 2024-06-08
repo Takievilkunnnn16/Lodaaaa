@@ -21,7 +21,7 @@ import html
 from collections import Counter 
 from shivu import db, collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection
 from shivu import application, shivuu, LOGGER ,GROUP_ID
-from shivu.modules.set_frequency import get_frequency
+from shivu.modules.set_freq import get_frequency
 from shivu.modules import ALL_MODULES
 from PIL import Image, ImageDraw, ImageFont
 import requests
@@ -206,7 +206,7 @@ async def send_image(update: Update, context: CallbackContext) -> None:
     normal_rarities = ["⚪️ Common","🟣 Rare", "🟡 Legendary", "🟢 Medium"]
     exc_rarity =  [ "💮 Exclusive", "🔮 Mythical", "🫧 Special"]
 
-    frequency = await get_frequency()
+    frequency = await get_frequency ()
 
     if chat_id not in sent_count:
         sent_count[chat_id] = 0
