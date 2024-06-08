@@ -91,8 +91,7 @@ async def inlinequery(update: Update, context: CallbackContext) -> None:
             
 <b>Globally catches {global_count} Times...</b>
 """
-        
-        results.append(
+   results.append(
             InlineQueryResultPhoto(
                 thumbnail_url=character['img_url'],
                 id=f"{character['id']}_{time.time()}",
