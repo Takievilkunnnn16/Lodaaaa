@@ -87,7 +87,7 @@ async def inlinequery(update: Update, context: CallbackContext) -> None:
 <b>{character['anime']}</b>
 <b>{character['id']}:</b>{character['name']}
 
-<b>( {character['rarity'][0]} 𝙍𝘼𝙍𝙄𝙏𝙔: {character['rarity'][2:]} )</b>
+<b>({character['rarity'][0]} 𝙍𝘼𝙍𝙄𝙏𝙔: {character['rarity'][2:]})</b>
             
 <b>Globally catches {global_count} Times...</b>
 """
