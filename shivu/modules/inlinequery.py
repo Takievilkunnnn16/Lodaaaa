@@ -74,9 +74,24 @@ async def inlinequery(update: Update, context: CallbackContext) -> None:
         if query.startswith('collection.'):
             user_character_count = sum(c['id'] == character['id'] for c in user.get('characters', []))
             user_anime_characters = sum(c['anime'] == character['anime'] for c in user.get('characters', []))
-            caption = f"<b> Look At <a href='tg://user?id={user['id']}'>{(escape(user.get('first_name', user['id'])))}</a>'s Character</b>\n\n🌸: <b>{character['name']} (x{user_character_count})</b>\n🏖️: <b>{character['anime']} ({user_anime_characters}/{anime_characters})</b>\n<b>{character['rarity']}</b>\n\n<b>🆔️:</b> {character['id']}"
-        else:
-            caption = f"<b>Look At This Character !!</b>\n\n🌸:<b> {character['name']}</b>\n🏖️: <b>{character['anime']}</b>\n<b>{character['rarity']}</b>\n🆔️: <b>{character['id']}</b>\n\n<b>Globally Secured {global_count} Times...</b>"
+            caption =f"""<b> OwO! Check out <a href='tg://user?id={user['id']}'>{(escape(user.get('first_name', user['id'])))}</a>'s waifu</b>
+
+<b>{character['anime']} ({user_anime_characters}/{anime_characters})</b>
+<b>{character['id']}:</b>{character['name']} (x{user_character_count})
+
+<b>({character['rarity'][0]} 𝙍𝘼𝙍𝙄𝙏𝙔:{character['rarity'][2:]})</b>
+"""
+    else:
+            caption =f"""<b> OwO! Check out Character !!</b>
+            
+<b>{character['anime']}</b>
+<b>{character['id']}:</b>{character['name']}</b>
+
+<b>({character['rarity'][0]} 𝙍𝘼𝙍𝙄𝙏𝙔:{character['rarity'][2:]})</b>
+            
+<b>Globally catches {global_count} Times...</b>
+"""
+        
         results.append(
             InlineQueryResultPhoto(
                 thumbnail_url=character['img_url'],
