@@ -21,7 +21,7 @@ import html
 from collections import Counter 
 from shivu import db, collection, top_global_groups_collection, group_user_totals_collection, user_collection, user_totals_collection
 from shivu import application, shivuu, LOGGER ,GROUP_ID
-from shivu.modules.set_freq import get_frequency
+from shivu.modules.set_frequency import get_frequency
 from shivu.modules import ALL_MODULES
 from PIL import Image, ImageDraw, ImageFont
 import requests
