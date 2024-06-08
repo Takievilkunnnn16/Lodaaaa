@@ -202,7 +202,7 @@ async def send_image(update: Update, context: CallbackContext) -> None:
         sent_characters[chat_id] = []
 
     
-    character = random.choice([c for c in all_characters if c['id'] not in sent_characters[chat_id]])
+    #character = random.choice([c for c in all_characters if c['id'] not in sent_characters[chat_id]])
     normal_rarities = ["⚪️ Common","🟣 Rare", "🟡 Legendary", "🟢 Medium"]
     exc_rarity =  [ "💮 Exclusive", "🔮 Mythical", "🫧 Special"]
 
