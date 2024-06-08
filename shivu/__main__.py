@@ -206,14 +206,14 @@ async def send_image(update: Update, context: CallbackContext) -> None:
     normal_rarities = ["⚪️ Common","🟣 Rare", "🟡 Legendary", "🟢 Medium"]
     exc_rarity =  [ "💮 Exclusive", "🔮 Mythical", "🫧 Special"]
 
-    frequency = await get_frequency ()
+    frequency = await get_frequency()
 
     if chat_id not in sent_count:
         sent_count[chat_id] = 0
 
     # Determine which type of character to send
     
-    if sent_count[chat_id] < frequency:
+    if sent_count[chat_id]  < frequency:
         # Send character from normal rarities
         eligible_characters = [c for c in all_characters if c['id'] not in sent_characters[chat_id] and c['rarity'] in normal_rarities]
     else:
