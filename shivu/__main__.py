@@ -272,8 +272,9 @@ async def guess(update: Update, context: CallbackContext) -> None:
 
     array = ["()","x","&","🧹","👘","❄️","🏖️","🎄","🐰","🎃","✨","⚡","☂️","🏀","☔","🏇","💗","💖","💝","👩‍🚀","🕶","🥂","🎒","🌤","👨‍🚀","🎊","🌹","🏝","🎩","👙","🏸","🎮","👑","🌙","💫","👶","💍","👰‍♀","🌸","🌴","🐠","🦋","🏋‍♂️","🍽","🍰","🎸","🥊","🩺"]
     if guess.lower() in array:
+        return 
       await update.message.reply_text("You can't use any type of emoji in your guess.")
-         return
+        return
         
     
     name_parts = last_characters[chat_id]['name'].lower().split()
