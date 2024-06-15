@@ -268,7 +268,7 @@ async def guess(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text(f'❌️ Already guessed by Someone..So Try Next Time Bruhh')
         return
 
-        guess = ' '.join(context.args).lower() if context.args else ''
+     guess = ' '.join(context.args).lower() if context.args else ''
 
     # Correct indentation for the emoji check
     if (
