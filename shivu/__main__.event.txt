@@ -244,17 +244,20 @@ async def guess(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text(f'❌️ Already guessed by Someone..So Try Next Time Bruhh')
         return
 
-    guess = ' '.join(context.args).lower() if context.args else ''
-    
-    
-    if "()","🧹","👘","❄️","🏖️","🎄","🐰","🎃","✨","⚡","☂️","🏀","☔","🏇","💗","💖","💝","👩‍🚀","🕶","🥂","🎒","🌤","👨‍🚀","🎊","🌹","🏝","🎩","👙","🏸","🎮","👑","🌙","💫","👶","💍","👰‍♀","🌸","🌴","🐠","🦋","🏋‍♂️","🍽","🍰","🎸","🥊","🩺"  
-in guess.lower() or "&", "X"  in guess.lower():
-        await update.message.reply_text("You can't use '&' in your guess.")
-        return
+        guess = ' '.join(context.args).lower() if context.args else ''
 
+    # Correct indentation for the emoji check
+    if (
+        "()","🧹","👘","❄️","🏖️","🎄","🐰","🎃","✨","⚡","☂️","🏀","☔","🏇","💗","💖","💝","👩‍🚀","🕶","🥂","🎒","🌤","👨‍🚀","🎊","🌹","🏝","🎩","👙","🏸","🎮","👑","🌙","💫","👶","💍","👰‍♀","🌸","🌴","🐠","🦋","🏋‍♂️","🍽","🍰","🎸","🥊","🩺" 
+        in guess.lower() or "&" in guess.lower() or "X" in guess.lower()
+    ):
+        await update.message.reply_text("You can't use all types of emojis in your guess.")
+        return
+    
     name_parts = last_characters[chat_id]['name'].lower().split()
 
     if sorted(name_parts) == sorted(guess.split()) or any(part == guess for part in name_parts):
+        
 
     
         first_correct_guesses[chat_id] = user_id
