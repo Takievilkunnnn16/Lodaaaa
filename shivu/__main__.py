@@ -270,7 +270,7 @@ async def guess(update: Update, context: CallbackContext) -> None:
 
     guess = ' '.join(context.args).lower() if context.args else ''
 
-    array = ['a','b','c']
+    array = ["()","x","🧹","👘","❄️","🏖️","🎄","🐰","🎃","✨","⚡","☂️","🏀","☔","🏇","💗","💖","💝","👩‍🚀","🕶","🥂","🎒","🌤","👨‍🚀","🎊","🌹","🏝","🎩","👙","🏸","🎮","👑","🌙","💫","👶","💍","👰‍♀","🌸","🌴","🐠","🦋","🏋‍♂️","🍽","🍰","🎸","🥊","🩺"]
 if guess.lower() in array:
       await update.message.reply_text("You can't use any type of emoji in your guess.")
         return
