@@ -9,7 +9,7 @@ async def get_frequency():
         return setting["value"]
     else:
         # Default frequency value if not set
-        return 30
+        return 20
 
 async def set_frequency(new_frequency):
     await settings_collection.update_one(
