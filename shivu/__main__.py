@@ -267,20 +267,20 @@ async def guess(update: Update, context: CallbackContext) -> None:
     if chat_id in first_correct_guesses:
         await update.message.reply_text(f'❌️ Already guessed by Someone..So Try Next Time Bruhh')
         return
-
     guess = ' '.join(context.args).lower() if context.args else ''
 
-    array = ["()","x","&","🧹","👘","❄️","🏖️","🎄","🐰","🎃","✨","⚡","☂️","🏀","☔","🏇","💗","💖","💝","👩‍🚀","🕶","🥂","🎒","🌤","👨‍🚀","🎊","🌹","🏝","🎩","👙","🏸","🎮","👑","🌙","💫","👶","💍","👰‍♀","🌸","🌴","🐠","🦋","🏋‍♂️","🍽","🍰","🎸","🥊","🩺"]
-    if guess.lower() in array:
-        return 
-      await update.message.reply_text("You can't use any type of emoji in your guess.")
+array = ["()","x","&","🧹","👘","❄️","🏖️","🎄","🐰","🎃","✨","⚡","☂️","🏀","☔","🏇","💗","💖","💝","👩‍🚀","🕶","🥂","🎒","🌤","👨‍🚀","🎊","🌹","🏝","🎩","👙","🏸","🎮","👑","🌙","💫","👶","💍","👰‍♀","🌸","🌴","🐠","🦋","🏋‍♂️","🍽","🍰","🎸","🥊","🩺"]
+
+  if guess.lower() in array:
+      await update.message.reply_text("You can't use all types of emojis in your guess.")
         return
-        
-    
-    name_parts = last_characters[chat_id]['name'].lower().split()
+
+name_parts = last_characters[chat_id]['name'].lower().split()
 
     if sorted(name_parts) == sorted(guess.split()) or any(part == guess for part in name_parts):
-        
+    guess = ' '.join(context.args).lower() if context.args else ''
+
+      
         first_correct_guesses[chat_id] = user_id
         
         user = await user_collection.find_one({'id': user_id})
