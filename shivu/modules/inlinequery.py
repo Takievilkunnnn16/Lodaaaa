@@ -77,7 +77,7 @@ async def inlinequery(client: Client, query: types.InlineQuery):
 
 <b>({character['rarity'][0]} 𝙍𝘼𝙍𝙄𝙏𝙔:{character['rarity'][2:]})</b>
 """ 
-       else:
+     else:
             caption = f"""<b> OwO! Check out Character !!</b>
             
 <b>{character['anime']}</b>
