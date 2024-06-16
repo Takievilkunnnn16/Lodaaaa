@@ -6,7 +6,7 @@ from shivu import user_collection, shivuu
 pending_trades = {}
 
 
-@shivuu.on_message(filters.command("trade"))
+@shivuu.on_message(filters.command("htrade"))
 async def trade(client, message):
     sender_id = message.from_user.id
 
@@ -17,7 +17,7 @@ async def trade(client, message):
     receiver_id = message.reply_to_message.from_user.id
 
     if sender_id == receiver_id:
-        await message.reply_text("You can't trade a character with yourself!")
+        await message.reply_text("You can't trade a Husbando with yourself!")
         return
 
     if len(message.command) != 3:
@@ -33,7 +33,7 @@ async def trade(client, message):
     receiver_character = next((character for character in receiver['characters'] if character['id'] == receiver_character_id), None)
 
     if not sender_character:
-        await message.reply_text("You don't have the character you're trying to trade!")
+        await message.reply_text("You don't have the Husbando you're trying to trade!")
         return
 
     if not receiver_character:
@@ -46,7 +46,7 @@ async def trade(client, message):
 
 
     if len(message.command) != 3:
-        await message.reply_text("/trade [Your Character ID] [Other User Character ID]!")
+        await message.reply_text("/htrade [Your Character ID] [Other User Character ID]!")
         return
 
     sender_character_id, receiver_character_id = message.command[1], message.command[2]
@@ -119,7 +119,7 @@ async def on_callback_query(client, callback_query):
 pending_gifts = {}
 
 
-@shivuu.on_message(filters.command("gift"))
+@shivuu.on_message(filters.command("hgift"))
 async def gift(client, message):
     sender_id = message.from_user.id
 
@@ -132,11 +132,11 @@ async def gift(client, message):
     receiver_first_name = message.reply_to_message.from_user.first_name
 
     if sender_id == receiver_id:
-        await message.reply_text("You can't gift a character to yourself!")
+        await message.reply_text("You can't gift a Husbando to yourself!")
         return
 
     if len(message.command) != 2:
-        await message.reply_text("You need to provide a character ID!")
+        await message.reply_text("You need to provide a Husbando ID!")
         return
 
     character_id = message.command[1]
@@ -146,7 +146,7 @@ async def gift(client, message):
     character = next((character for character in sender['characters'] if character['id'] == character_id), None)
 
     if not character:
-        await message.reply_text("You don't have this character in your collection!")
+        await message.reply_text("You don't have this character in your harem!")
         return
 
 
