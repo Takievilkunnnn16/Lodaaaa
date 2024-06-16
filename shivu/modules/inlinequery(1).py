@@ -38,11 +38,12 @@ async def inlinequery(update: Update, context: CallbackContext) -> None:
         if user_id.isdigit():
             user = await get_user(user_id)
             if user:
-                all_characters = list(await collection.find({"$or": [{"name": regex}, {"rarity": regex}, {"id": regex}, {"anime": regex}]}).to_list(length=None))  
+                all_characters = list({v['id']: v for v in user.get('characters', [])}.values())
                 if search_terms:
                     regex = re.compile(' '.join(search_terms), re.IGNORECASE)
-                    all_characters = [character for character in all_characters if 
-                                      regex.search(character['name']) or regex.search(character['rarity']) or regex.search(character['id']) or regex.search(character['anime'])]
+                    all_characters = [character for character in all_characters if
+                                        regex.search(character['name']) or regex.search(character['anime'])]
+ 
             else:
                 all_characters = []
         else:
