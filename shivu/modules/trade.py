@@ -2,7 +2,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from html import escape 
 from shivu import user_collection, shivuu
-import time
+from time import time
 
 pending_trades = {}
 
@@ -170,15 +170,20 @@ async def gift(client, message):
 
     await message.reply_text(f' do You Really Wanna Gift {character["name"]} to {message.reply_to_message.from_user.mention}  ? ', reply_markup=keyboard)
 
+
+user_last_click_time = {}
+
 @shivuu.on_callback_query(filters.create(lambda _, __, query: query.data in ["confirm_gift", "cancel_gift"]))
 async def on_callback_query(client, callback_query):
     sender_id = callback_query.from_user.id
-    last_click_time = 0
     
-    current_time = time.time()
-    if current_time - last_click_time < 2:
+    current_time = time()
+    
+    if sender_id in user_last_click_time and current_time - user_last_click_time[sender_id] < 2:
         await callback_query.answer("Don't Spam Buddy.", show_alert=True)
-        return
+        return   
+  
+    user_last_click_time[sender_id] = current_time
     
     for (_sender_id, receiver_id), gift in pending_gifts.items():
         if _sender_id == sender_id:
@@ -188,19 +193,15 @@ async def on_callback_query(client, callback_query):
         return
 
     if callback_query.data == "confirm_gift":
-        
         sender = await user_collection.find_one({'id': sender_id})
         receiver = await user_collection.find_one({'id': receiver_id})
 
-        
         sender['characters'].remove(gift['character'])
         await user_collection.update_one({'id': sender_id}, {'$set': {'characters': sender['characters']}})
 
-        
         if receiver:
             await user_collection.update_one({'id': receiver_id}, {'$push': {'characters': gift['character']}})
         else:
-            
             await user_collection.insert_one({
                 'id': receiver_id,
                 'username': gift['receiver_username'],
@@ -208,14 +209,8 @@ async def on_callback_query(client, callback_query):
                 'first_name': gift['receiver_first_name'],
             })
 
-        
         del pending_gifts[(sender_id, receiver_id)]
-
         await callback_query.message.edit_text(f"Character gifted successfully")
-    elif  callback_query.data == "cancel_gift":
-
+    elif callback_query.data == "cancel_gift":
         del pending_gifts[(sender_id, receiver_id)]
-
         await callback_query.message.edit_text("Cancelled")
-    
-    last_click_time = current_time
