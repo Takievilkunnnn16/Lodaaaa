@@ -172,7 +172,12 @@ async def gift(client, message):
 @shivuu.on_callback_query(filters.create(lambda _, __, query: query.data in ["confirm_gift", "cancel_gift"]))
 async def on_callback_query(client, callback_query):
     sender_id = callback_query.from_user.id
-
+    last_click_time = 0
+    
+    current_time = time.time()
+    if current_time - last_click_time < 2:
+        await callback_query.answer("Don't Spam Buddy.", show_alert=True)
+        return
     
     for (_sender_id, receiver_id), gift in pending_gifts.items():
         if _sender_id == sender_id:
@@ -211,3 +216,5 @@ async def on_callback_query(client, callback_query):
         del pending_gifts[(sender_id, receiver_id)]
 
         await callback_query.message.edit_text("Cancelled")
+    
+    last_click_time = current_time
