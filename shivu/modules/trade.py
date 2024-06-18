@@ -171,10 +171,6 @@ async def gift(client, message):
 
     await message.reply_photo(photo=character["img_url"], caption=f' do You Really Wanna Gift {character["name"]} to {message.reply_to_message.from_user.mention}  ? ', reply_markup=keyboard)
 
-
-import asyncio
-from time import time
-
 user_last_click_time = {}
 pending_gifts_locks = {}
 
