@@ -2,6 +2,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from html import escape 
 from shivu import user_collection, shivuu
+import time
 
 pending_trades = {}
 
