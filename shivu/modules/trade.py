@@ -179,7 +179,7 @@ async def on_callback_query(client, callback_query):
     
     current_time = time()
     
-    if sender_id in user_last_click_time and current_time - user_last_click_time[sender_id] < 2:
+    if sender_id in user_last_click_time and current_time - user_last_click_time[sender_id] < 1:
         await callback_query.answer("Don't Spam Buddy.", show_alert=True)
         return   
   
