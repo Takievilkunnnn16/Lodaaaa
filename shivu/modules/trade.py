@@ -168,7 +168,7 @@ async def gift(client, message):
         ]
     )
 
-    await message.reply_text(f' do You Really Wanna Gift {character["name"]} to {message.reply_to_message.from_user.mention}  ? ', reply_markup=keyboard)
+    await message.reply_photo(photo=character["img_url"], caption=f' do You Really Wanna Gift {character["name"]} to {message.reply_to_message.from_user.mention}  ? ', reply_markup=keyboard)
 
 
 user_last_click_time = {}
