@@ -2,6 +2,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from html import escape 
 from shivu import user_collection, shivuu
+import asyncio
 from time import time
 
 pending_trades = {}
@@ -172,6 +173,7 @@ async def gift(client, message):
 
 
 user_last_click_time = {}
+pending_gifts_locks = {}
 
 @shivuu.on_callback_query(filters.create(lambda _, __, query: query.data in ["confirm_gift", "cancel_gift"]))
 async def on_callback_query(client, callback_query):
@@ -179,38 +181,49 @@ async def on_callback_query(client, callback_query):
     
     current_time = time()
     
-    if sender_id in user_last_click_time and current_time - user_last_click_time[sender_id] < 1:
+    if sender_id in user_last_click_time and current_time - user_last_click_time[sender_id] < 2:
         await callback_query.answer("Don't Spam Buddy.", show_alert=True)
-        return   
-  
-    user_last_click_time[sender_id] = current_time
-    
-    for (_sender_id, receiver_id), gift in pending_gifts.items():
-        if _sender_id == sender_id:
-            break
-    else:
-        await callback_query.answer("This is not for you!", show_alert=True)
         return
+    
+    user_last_click_time[sender_id] = current_time
 
-    if callback_query.data == "confirm_gift":
-        sender = await user_collection.find_one({'id': sender_id})
-        receiver = await user_collection.find_one({'id': receiver_id})
+    
+    lock = pending_gifts_locks.setdefault((sender_id, receiver_id), asyncio.Lock())
 
-        sender['characters'].remove(gift['character'])
-        await user_collection.update_one({'id': sender_id}, {'$set': {'characters': sender['characters']}})
-
-        if receiver:
-            await user_collection.update_one({'id': receiver_id}, {'$push': {'characters': gift['character']}})
+    async with lock:
+        for (_sender_id, receiver_id), gift in pending_gifts.items():
+            if _sender_id == sender_id:
+                break
         else:
-            await user_collection.insert_one({
-                'id': receiver_id,
-                'username': gift['receiver_username'],
-                'characters': [gift['character']], 
-                'first_name': gift['receiver_first_name'],
-            })
+            await callback_query.answer("This is not for you!", show_alert=True)
+            return
 
-        del pending_gifts[(sender_id, receiver_id)]
-        await callback_query.message.edit_text(f"Character gifted successfully")
-    elif callback_query.data == "cancel_gift":
-        del pending_gifts[(sender_id, receiver_id)]
-        await callback_query.message.edit_text("Cancelled")
+        if callback_query.data == "confirm_gift":
+            sender = await user_collection.find_one({'id': sender_id})
+            receiver = await user_collection.find_one({'id': receiver_id})
+
+            if gift['character'] not in sender['characters']:
+                await callback_query.answer("Character not available or already gifted.", show_alert=True)
+                return
+
+            sender['characters'].remove(gift['character'])
+            await user_collection.update_one({'id': sender_id}, {'$set': {'characters': sender['characters']}})
+
+            if receiver:
+                await user_collection.update_one({'id': receiver_id}, {'$push': {'characters': gift['character']}})
+            else:
+                await user_collection.insert_one({
+                    'id': receiver_id,
+                    'username': gift['receiver_username'],
+                    'characters': [gift['character']], 
+                    'first_name': gift['receiver_first_name'],
+                })
+
+            del pending_gifts[(sender_id, receiver_id)]
+            await callback_query.message.edit_text("Character gifted successfully")
+        elif callback_query.data == "cancel_gift":
+            del pending_gifts[(sender_id, receiver_id)]
+            await callback_query.message.edit_text("Cancelled")
+        
+       
+        del pending_gifts_locks[(sender_id, receiver_id)]
