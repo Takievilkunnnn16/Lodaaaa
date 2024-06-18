@@ -7,7 +7,7 @@ from time import time
 pending_trades = {}
 
 
-@shivuu.on_message(filters.command("trade"))
+@shivuu.on_message(filters.command("htrade"))
 async def trade(client, message):
     sender_id = message.from_user.id
 
@@ -47,7 +47,7 @@ async def trade(client, message):
 
 
     if len(message.command) != 3:
-        await message.reply_text("/trade [Your Character ID] [Other User Character ID]!")
+        await message.reply_text("/htrade [Your Character ID] [Other User Character ID]!")
         return
 
     sender_character_id, receiver_character_id = message.command[1], message.command[2]
@@ -120,7 +120,7 @@ async def on_callback_query(client, callback_query):
 pending_gifts = {}
 
 
-@shivuu.on_message(filters.command("gift"))
+@shivuu.on_message(filters.command("hgift"))
 async def gift(client, message):
     good_id = message.from_user.id 
     good_first_name = message.reply_to_message.from_user.first_name 
