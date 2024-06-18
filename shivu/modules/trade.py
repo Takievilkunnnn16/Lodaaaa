@@ -172,6 +172,9 @@ async def gift(client, message):
     await message.reply_photo(photo=character["img_url"], caption=f' do You Really Wanna Gift {character["name"]} to {message.reply_to_message.from_user.mention}  ? ', reply_markup=keyboard)
 
 
+import asyncio
+from time import time
+
 user_last_click_time = {}
 pending_gifts_locks = {}
 
@@ -187,17 +190,17 @@ async def on_callback_query(client, callback_query):
     
     user_last_click_time[sender_id] = current_time
 
-    
+    for (_sender_id, receiver_id), gift in pending_gifts.items():
+        if _sender_id == sender_id:
+            break
+    else:
+        await callback_query.answer("This is not for you!", show_alert=True)
+        return
+
+ 
     lock = pending_gifts_locks.setdefault((sender_id, receiver_id), asyncio.Lock())
 
     async with lock:
-        for (_sender_id, receiver_id), gift in pending_gifts.items():
-            if _sender_id == sender_id:
-                break
-        else:
-            await callback_query.answer("This is not for you!", show_alert=True)
-            return
-
         if callback_query.data == "confirm_gift":
             sender = await user_collection.find_one({'id': sender_id})
             receiver = await user_collection.find_one({'id': receiver_id})
@@ -225,5 +228,5 @@ async def on_callback_query(client, callback_query):
             del pending_gifts[(sender_id, receiver_id)]
             await callback_query.message.edit_text("Cancelled")
         
-       
+        
         del pending_gifts_locks[(sender_id, receiver_id)]
