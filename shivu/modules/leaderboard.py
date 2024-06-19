@@ -108,7 +108,7 @@ async def etop(update: Update, context: CallbackContext) -> None:
                 "$filter": {
                     "input": "$characters",
                     "as": "char",
-                    "cond": {"$eq": ["$$char.rarity", "🌤 Summer"]}
+                    "cond": {"$eq": ["$$char.rarity", "💖 valentine"]}
                 }
             }
         }},
@@ -119,7 +119,7 @@ async def etop(update: Update, context: CallbackContext) -> None:
 
     leaderboard_data = await cursor.to_list(length=10)
 
-    leaderboard_message = "<b>Top 10 Summer Securers</b>\n\n"
+    leaderboard_message = "<b>Top 10 Valentine💖 Catcher's</b>\n\n"
 
 
     for i, user in enumerate(leaderboard_data, start=1):
@@ -242,7 +242,7 @@ async def etop(update: Update, context: CallbackContext) -> None:
                 "$filter": {
                     "input": "$characters",
                     "as": "char",
-                    "cond": {"$eq": ["$$char.rarity", "🌤 Summer"]}
+                    "cond": {"$eq": ["$$char.rarity", "💖 Valentine"]}
                 }
             }
         }},
@@ -253,7 +253,7 @@ async def etop(update: Update, context: CallbackContext) -> None:
 
     leaderboard_data = await cursor.to_list(length=10)
 
-    leaderboard_message = "<b>Top 10 Summer Securers</b>\n\n"
+    leaderboard_message = "<b>Top 10 Valentine💖 Catcher's</b>\n\n"
 
 
     for i, user in enumerate(leaderboard_data, start=1):
