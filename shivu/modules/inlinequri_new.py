@@ -1,13 +1,12 @@
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import re
-from pyrogram import Client, filters, types, enums
-import asyncio
 import time
 from html import escape
 from cachetools import TTLCache
-from pymongo import MongoClient, ASCENDING
-from shivu import shivuu as app
-from shivu import user_collection, collection, db
+from pymongo import ASCENDING
+from telegram import Update, InlineQueryResultPhoto, InlineQueryResultVideo
+from telegram.ext import InlineQueryHandler, CallbackContext
+
+from shivu import user_collection, application, db,collection
 
 # MongoDB indexes
 db.characters.create_index([('id', ASCENDING)])
@@ -21,32 +20,37 @@ db.user_collection.create_index([('characters.img_url', ASCENDING)])
 all_characters_cache = TTLCache(maxsize=10000, ttl=36000)
 user_collection_cache = TTLCache(maxsize=10000, ttl=60)
 
-@app.on_inline_query()
-async def inlinequery(client: Client, query: types.InlineQuery):
-    offset = int(query.offset) if query.offset else 0
+async def get_user(user_id):
+    if user_id in user_collection_cache:
+        return user_collection_cache[user_id]
+    else:
+        user = await user_collection.find_one({'id': int(user_id)})
+        user_collection_cache[user_id] = user
+        return user
 
-    if query.query.startswith('collection.'):
-        user_id, *search_terms = query.query.split(' ')[0].split('.')[1], ' '.join(query.query.split(' ')[1:])
+async def inlinequery(update: Update, context: CallbackContext) -> None:
+    query = update.inline_query.query
+    offset = int(update.inline_query.offset) if update.inline_query.offset else 0
+
+
+    if query.startswith('collection.'):
+        user_id, *search_terms = query.split(' ')[0].split('.')[1], ' '.join(query.split(' ')[1:])
         if user_id.isdigit():
-            if user_id in user_collection_cache:
-                user = user_collection_cache[user_id]
-            else:
-                user = await user_collection.find_one({'id': int(user_id)})
-                user_collection_cache[user_id] = user
-
+            user = await get_user(user_id)
             if user:
-                all_characters = list({v['id']:v for v in user['characters']}.values())
+                all_characters = list({v['id']: v for v in user.get('characters', [])}.values())
                 if search_terms:
                     regex = re.compile(' '.join(search_terms), re.IGNORECASE)
-                    all_characters = [character for character in all_characters if regex.search(character['name']) or regex.search(character['rarity']) or regex.search(character['id']) or regex.search(character['anime'])]
+                    all_characters = [character for character in all_characters if
+                                        regex.search(character['name']) or regex.search(character['anime'])]
             else:
                 all_characters = []
         else:
             all_characters = []
     else:
-        if query.query:
-            regex = re.compile(query.query, re.IGNORECASE)
-            all_characters = list(await collection.find({"$or": [{"name": regex}, {"rarity": regex}, {"id": regex}, {"anime": regex}]}).to_list(length=None))
+        if query:
+            regex = re.compile(query, re.IGNORECASE)
+            all_characters = list(await collection.find({"$or": [{"name": regex}, {"rarity": regex}, {"anime": regex}]}).to_list(length=None))
         else:
             if 'all_characters' in all_characters_cache:
                 all_characters = all_characters_cache['all_characters']
@@ -54,10 +58,11 @@ async def inlinequery(client: Client, query: types.InlineQuery):
                 all_characters = list(await collection.find({}).to_list(length=None))
                 all_characters_cache['all_characters'] = all_characters
 
-    characters = all_characters[offset:offset+50]
-    if len(characters) > 50:
-        characters = characters[:50]
-        next_offset = str(offset + 50)
+    characters = all_characters[offset:offset + 20]
+
+    if len(characters) > 20:
+        characters = characters[:20]
+        next_offset = str(offset + 20)
     else:
         next_offset = str(offset + len(characters))
 
@@ -65,11 +70,10 @@ async def inlinequery(client: Client, query: types.InlineQuery):
     for character in characters:
         global_count = await user_collection.count_documents({'characters.id': character['id']})
         anime_characters = await collection.count_documents({'anime': character['anime']})
-        total_characters = len(all_characters)
-        title = str(total_characters)
-        if query.query.startswith('collection.'):
-            user_character_count = sum(c['id'] == character['id'] for c in user['characters'])
-            user_anime_characters = sum(c['anime'] == character['anime'] for c in user['characters'])
+
+        if query.startswith('collection.'):
+            user_character_count = sum(c['id'] == character['id'] for c in user.get('characters', []))
+            user_anime_characters = sum(c['anime'] == character['anime'] for c in user.get('characters', []))
             caption = f"""<b> OwO! Check out <a href='tg://user?id={user['id']}'>{(escape(user.get('first_name', user['id'])))}</a>'s Husbando</b>
 
 <b>{character['anime']} ({user_anime_characters}/{anime_characters})</b>
@@ -88,13 +92,15 @@ async def inlinequery(client: Client, query: types.InlineQuery):
 <b>Globally catches {global_count} Times...</b>
 """
         results.append(
-            types.InlineQueryResultPhoto(
-                title=title,
-                thumb_url=character['img_url'],
+            InlineQueryResultPhoto(
+                thumbnail_url=character['img_url'],
+                id=f"{character['id']}_{time.time()}",
                 photo_url=character['img_url'],
                 caption=caption,
-                parse_mode=enums.ParseMode.HTML
+                parse_mode='HTML'
             )
         )
 
-    await client.answer_inline_query(query.id, results, next_offset=next_offset, cache_time=5, is_gallery=True)
+    await update.inline_query.answer(results, next_offset=next_offset, cache_time=5)
+
+application.add_handler(InlineQueryHandler(inlinequery, block=False))
