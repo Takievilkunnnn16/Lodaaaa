@@ -138,6 +138,10 @@ async def gift(client, message):
         await message.reply_text("You can't gift a character to yourself!")
         return
 
+    if message.reply_to_message.from_user.is_bot:
+        await message.reply_text("Brilliant bro, atleast see who I am 🤧")
+        return
+
     if len(message.command) != 2:
         await message.reply_text("You need to provide a character ID!")
         return
