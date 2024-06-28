@@ -15,18 +15,18 @@ logging.getLogger('httpx').setLevel(logging.WARNING)
 logging.getLogger("pyrate_limiter").setLevel(logging.ERROR)
 LOGGER = logging.getLogger(__name__)
 
-OWNER_ID = os.getenv("OWNER_ID")
-sudo_users = os.getenv("SUDO_USERS").split()
-GROUP_ID = os.getenv("GROUP_ID")
-TOKEN = os.getenv("TOKEN")
-mongo_url = os.getenv("MONGO_URL")
-PHOTO_URL = os.getenv("PHOTO_URL").split()
-SUPPORT_CHAT = os.getenv("SUPPORT_CHAT")
-CHARA_CHANNEL_ID = os.getenv("CHARA_CHANNEL_ID")
-API_HASH = os.getenv("API_HASH")
-API_ID = os.getenv("API_ID")
-UPDATE_CHAT = os.getenv("UPDATE_CHAT")
-BOT_USERNAME = os.getenv("BOT_USERNAME")
+OWNER_ID = Config.OWNER_ID
+sudo_users = Config.SUDO_USERS
+GROUP_ID = Config.GROUP_ID
+TOKEN = Config.TOKEN
+mongo_url = Config.MONGO_URL
+PHOTO_URL = Config.PHOTO_URL
+SUPPORT_CHAT = Config.SUPPORT_CHAT
+CHARA_CHANNEL_ID = Config.CHARA_CHANNEL_ID
+API_HASH = Config.API_HASH
+API_ID = Config.API_ID
+UPDATE_CHAT = Config.UPDATE_CHAT
+BOT_USERNAME = Config.BOT_USERNAME
 
 
 application = Application.builder().token(TOKEN).build()
