@@ -1,9 +1,9 @@
-import os
-import telegram.ext as tg
-from pyrogram import Client
 import logging  
+import os
+from pyrogram import Client 
 from telegram.ext import Application
 from motor.motor_asyncio import AsyncIOMotorClient
+
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
@@ -15,35 +15,29 @@ logging.getLogger('httpx').setLevel(logging.WARNING)
 logging.getLogger("pyrate_limiter").setLevel(logging.ERROR)
 LOGGER = logging.getLogger(__name__)
 
-OWNER_ID = os.getenv("OWNER_ID")
-sudo_users = os.getenv("SUDO_USERS").split()
-GROUP_ID = os.getenv("GROUP_ID")
-TOKEN = os.getenv("TOKEN")
-mongo_url = os.getenv("MONGO_URL")
-PHOTO_URL = os.getenv("PHOTO_URL").split()
-SUPPORT_CHAT = os.getenv("SUPPORT_CHAT")
-CHARA_CHANNEL_ID = os.getenv("CHARA_CHANNEL_ID")
-API_HASH = os.getenv("API_HASH")
-API_ID = os.getenv("API_ID")
-UPDATE_CHAT = os.getenv("UPDATE_CHAT")
-BOT_USERNAME = os.getenv("BOT_USERNAME")
+from shivu.config import Development as Config
 
+
+api_id = Config.api_id
+api_hash = Config.api_hash
+TOKEN = Config.TOKEN
+GROUP_ID = Config.GROUP_ID
+CHARA_CHANNEL_ID = Config.CHARA_CHANNEL_ID 
+mongo_url = Config.mongo_url 
+PHOTO_URL = Config.PHOTO_URL 
+SUPPORT_CHAT = Config.SUPPORT_CHAT 
+UPDATE_CHAT = Config.UPDATE_CHAT
+BOT_USERNAME = Config.BOT_USERNAME 
+sudo_users = Config.sudo_users
+OWNER_ID = Config.OWNER_ID 
 
 application = Application.builder().token(TOKEN).build()
-shivuu = Client(
-    "lmao",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=TOKEN,
-    
-    
-)
-client = AsyncIOMotorClient(mongo_url)
-db = client['Character_catche']
+shivuu = Client("Shivu", api_id, api_hash, bot_token=TOKEN)
+lol = AsyncIOMotorClient(mongo_url)
+db = lol['Character_catcher']
 collection = db['anime_characters_lol']
-event_collection = db['Event_Characters']
 user_totals_collection = db['user_totals_lmaoooo']
 user_collection = db["user_collection_lmaoooo"]
 group_user_totals_collection = db['group_user_totalsssssss']
 top_global_groups_collection = db['top_global_groups']
-settings_collection = db["settings"]
+pm_users = db['total_pm_users']
